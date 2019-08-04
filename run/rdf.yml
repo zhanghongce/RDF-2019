@@ -1,0 +1,51 @@
+---
+
+rdf_path: /afs/apd/func/vlsi/eclipz/l14/usr/jungj/sndd1/vols/datc/RDF-2019
+job_dir: /path/to/job/directory/not/implemented/yet
+
+design:
+    name:        ac97_ctrl
+    clock_port:  clk
+    bench_suite: tau17
+    library:     nangate45
+
+    # Floorplan configuration
+    target_utilization: 50
+    aspect_ratio: 1
+
+    # Input Verilog files (can be multiple files)
+    verilog:     
+        - benchmarks/tau17/ac97_ctrl/ac97_ctrl.v
+
+flow:
+    - stage: synth
+      tool: abc   # ABC or Yosys
+      user_parms: 
+          max_fanout: 16
+          script: resyn2
+          map:    map
+
+    - stage: floorplan
+      tool: TritonFP 
+      user_parms: []
+
+    - stage: global_place
+      tool: RePlAce     # RePlAce, EhPlacer, ComPLx, NTUPlace
+      user_parms: []
+
+    - stage: detail_place
+      tool: opendp
+      user_parms: []
+
+    - stage: size
+      tool: TritonSizer
+      user_parms: []
+
+    - stage: cts
+      tool: TritonCTS
+      user_parms: []
+
+    - stage: global_route
+      tool: FastRoute4-lefdef
+      user_parms: []
+
