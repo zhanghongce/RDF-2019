@@ -108,4 +108,22 @@ tritonCTS LUTs
 gds
 ```
 
+Contributors
+===
+
+Current DATC Committee members
+---
+
+* Iris Hui-Ru Jiang - National Taiwan University
+* Andrew B. Kahng - University of California San Diego
+* Jianli Chen - Fuzhou University
+* Jinwook Jung - IBM Thomas J. Watson Research Center
+* Victor N. Kravets - IBM Thomas J. Watson Research Center
+* Yih-Lang Li - National Chiao Tung University
+
+Tool contributors
+---
+* Nima Karimpour and Laleh Behjat - University of Calgary
+* Myung-Chul Kim and Igor Markov
+* OpenROAD team
 
