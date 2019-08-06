@@ -1,0 +1,148 @@
+
+Cadence Innovus(TM) Implementation System.
+Copyright 2018 Cadence Design Systems, Inc. All rights reserved worldwide.
+
+Version:	v18.12-s106_1, built Tue Dec 11 14:18:32 PST 2018
+Options:	
+Date:		Mon Aug  5 16:19:12 2019
+Host:		gridl143.pok.ibm.com (x86_64 w/Linux 2.6.32-696.28.1.el6.x86_64) (6cores*24cpus*Intel(R) Xeon(R) CPU X5690 @ 3.47GHz 12288KB)
+OS:		Red Hat Enterprise Linux Workstation release 6.4 (Santiago)
+
+License:
+		invs	Innovus Implementation System	18.1	checkout succeeded
+		8 CPU jobs allowed with the current license(s). Use setMultiCpuUsage to set your required CPU count.
+The soft stacksize limit is either up to the hard limit or larger than 0.2%RAM. No change is needed.
+
+**INFO:  MMMC transition support version v31-84 
+
+<CMD> set_global _enable_mmmc_by_default_flow      $CTE::mmmc_default
+<CMD> suppressMessage ENCEXT-2799
+<CMD> getVersion
+<CMD> win
+<CMD> loadLefFile nangate45.lef
+
+Loading LEF file nangate45.lef ...
+Set DBUPerIGU to M2 pitch 380.
+
+##  Check design process and node:  ##
+##  Both design process and tech node are not set.
+
+
+viaInitial starts at Mon Aug  5 16:19:55 2019
+viaInitial ends at Mon Aug  5 16:19:55 2019
+<CMD> loadDefFile ac97_ctrl.def
+Creating netlist for top cell: ac97_ctrl ...
+Reading 7844 COMPONENTS ... 
+Done.
+Reading 133 PINS ... 
+Done.
+Reading 7921 NETS ... 
+Done.
+WARNING (DEFPARS-7013): The DEF file is invalid if NAMESCASESENSITIVE is undefined.
+NAMESCASESENSITIVE is a mandatory statement in the DEF file with version 5.6 and earlier.
+To define the NAMESCASESENSITIVE statement, refer to the LEF/DEF 5.5 and earlier Language Reference manual. See file ac97_ctrl.def at line 27733.
+net ignore based on current view = 0
+*** End DEF_netlist parsing (cpu=0:00:00.1, real=0:00:00.0, mem=551.9M) ***
+Writing Netlist "ac97_ctrl.def.v" ...
+Resetting process node dependent CCOpt properties.
+Free PSO.
+Resetting process node dependent CCOpt properties.
+**WARN: (IMPCK-8086):	The command setCTSMode is obsolete and will be removed in the next release. This command still works in this release, but by the next release you must transition to the CCOpt-based CTS flow.
+Set DBUPerIGU to 1000.
+Set net toggle Scale Factor to 1.00
+Set Shrink Factor to 1.00000
+Set net toggle Scale Factor to 1.00
+Set Shrink Factor to 1.00000
+
+*** Memory Usage v#1 (Current mem = 550.809M, initial mem = 227.383M) ***
+
+
+Info (SM2C): Status of key globals:
+	 MMMC-by-default flow     : 1
+	 Default MMMC objs envvar : 0
+	 Data portability         : 0
+	 MMMC PV Emulation        : 0
+	 MMMC debug               : 0
+	 Init_Design flow         : 1
+
+
+	 CTE SM2C global          : false
+	 Reporting view filter    : false
+
+Loading LEF file nangate45.lef ...
+Set DBUPerIGU to M2 pitch 380.
+
+##  Check design process and node:  ##
+##  Both design process and tech node are not set.
+
+
+viaInitial starts at Mon Aug  5 16:20:01 2019
+viaInitial ends at Mon Aug  5 16:20:01 2019
+*** End library_loading (cpu=0.00min, mem=0.0M, fe_cpu=0.34min, fe_mem=553.9M) ***
+*** Begin netlist parsing (mem=553.9M) ***
+Created 0 new cells from 0 timing libraries.
+Reading netlist ...
+Backslashed names will retain backslash and a trailing blank character.
+Reading verilog netlist 'ac97_ctrl.def.v'
+
+*** Memory Usage v#1 (Current mem = 553.910M, initial mem = 227.383M) ***
+*** End netlist parsing (cpu=0:00:00.1, real=0:00:00.0, mem=553.9M) ***
+Top level cell is ac97_ctrl.
+LoadLibsFirst: dbBindLib
+Hooked 0 DB cells to tlib cells.
+Starting recursive module instantiation check.
+No recursion found.
+Building hierarchical netlist for Cell ac97_ctrl ...
+*** Netlist is unique.
+** info: there are 135 modules.
+** info: there are 7844 stdCell insts.
+
+*** Memory Usage v#1 (Current mem = 588.473M, initial mem = 227.383M) ***
+*info: set bottom ioPad orient R0
+Generated pitch 1.68 in metal10 is different from 1.6 defined in technology file in preferred direction.
+Generated pitch 0.84 in metal9 is different from 1.6 defined in technology file in unpreferred direction.
+Generated pitch 0.84 in metal8 is different from 0.8 defined in technology file in unpreferred direction.
+Generated pitch 0.84 in metal8 is different from 0.8 defined in technology file in preferred direction.
+Generated pitch 0.28 in metal7 is different from 0.8 defined in technology file in unpreferred direction.
+Generated pitch 0.84 in metal7 is different from 0.8 defined in technology file in preferred direction.
+Generated pitch 0.14 in metal4 is different from 0.28 defined in technology file in unpreferred direction.
+Set Using Default Delay Limit as 1000.
+Set Default Net Delay as 1000 ps.
+Set Default Net Load as 0.5 pF. 
+Set Default Input Pin Transition as 0.1 ps.
+
+
+Info (SM2C) :  No usable timing libraries were defined in .conf - physical only mode
+
+
+!INFO (MMMC):  The design is in physical only mode .
+
+
+Reading DEF file 'ac97_ctrl.def', current time is Mon Aug  5 16:20:02 2019 ...
+--- DIVIDERCHAR '/'
+--- UnitsPerDBU = 1.0000
+Generated pitch 1.68 in metal10 is different from 1.6 defined in technology file in preferred direction.
+Generated pitch 0.84 in metal9 is different from 1.6 defined in technology file in unpreferred direction.
+Generated pitch 0.84 in metal8 is different from 0.8 defined in technology file in unpreferred direction.
+Generated pitch 0.84 in metal8 is different from 0.8 defined in technology file in preferred direction.
+Generated pitch 0.28 in metal7 is different from 0.8 defined in technology file in unpreferred direction.
+Generated pitch 0.84 in metal7 is different from 0.8 defined in technology file in preferred direction.
+Generated pitch 0.14 in metal4 is different from 0.28 defined in technology file in unpreferred direction.
+--- DIEAREA (0 0) (409510 409510)
+Extracting standard cell pins and blockage ...... 
+Pin and blockage extraction finished
+Extracting macro/IO cell pins and blockage ...... 
+Pin and blockage extraction finished
+defIn read 10000 lines...
+defIn read 20000 lines...
+WARNING (DEFPARS-7013): The DEF file is invalid if NAMESCASESENSITIVE is undefined.
+NAMESCASESENSITIVE is a mandatory statement in the DEF file with version 5.6 and earlier.
+To define the NAMESCASESENSITIVE statement, refer to the LEF/DEF 5.5 and earlier Language Reference manual. See file ac97_ctrl.def at line 27733.
+DEF file 'ac97_ctrl.def' is parsed, current time is Mon Aug  5 16:20:02 2019.
+Updating the floorplan ...
+floor plan core box changed from {{0.000000,0.000000},{204.755000,204.755000}} to {{14.000000,14.000000},{190.700000,190.400000}}
+
+*** Memory Usage v#1 (Current mem = 713.707M, initial mem = 227.383M) ***
+*** Message Summary: 1 warning(s), 0 error(s)
+
+--- Ending "Innovus" (totcpu=0:00:55.7, real=0:09:31, mem=713.7M) ---
