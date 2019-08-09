@@ -30,15 +30,11 @@ flow:
       user_parms: []
 
     - stage: global_place
-      tool: RePlAce     # RePlAce, EhPlacer, ComPLx, NTUPlace
+      tool: RePlAce         # RePlAce, EhPlacer, ComPLx, NTUPlace
       user_parms: []
 
     - stage: detail_place
       tool: opendp
-      user_parms: []
-
-    - stage: size
-      tool: TritonSizer
       user_parms: []
 
     - stage: cts
@@ -47,5 +43,9 @@ flow:
 
     - stage: global_route
       tool: FastRoute4-lefdef
+      user_parms: []
+
+    - stage: detail_route
+      tool: TritonRoute
       user_parms: []
 
