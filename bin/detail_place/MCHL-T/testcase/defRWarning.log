@@ -1,5 +1,0 @@
-Warnings from file: ac97_ctrl.def
-
-WARNING (DEFPARS-7013): The DEF file is invalid if NAMESCASESENSITIVE is undefined.
-NAMESCASESENSITIVE is a mandatory statement in the DEF file with version 5.6 and earlier.
-To define the NAMESCASESENSITIVE statement, refer to the LEF/DEF 5.5 and earlier Language Reference manual. See file ac97_ctrl.def at line 25929
