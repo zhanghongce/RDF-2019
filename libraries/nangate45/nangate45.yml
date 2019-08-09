@@ -13,9 +13,6 @@ PLACE_SITE: FreePDK45_38x28_10R_NP_162NW_34O
 # Track information for generating DEF tracks
 TRACKS_INFO_FILE: tracks.info
 
-# Cell padding in microns to ease routability
-CELL_PAD_IN_MICRON: 1.0
-
 # Wndcap and Welltie cells
 # Use fillers if kit doesn't have them
 ENDCAP_CELL: FILLCELL_X1
@@ -55,3 +52,6 @@ IO_PLACER_VMETAL: 5
 IO_PLACER_HMETAL: 6
 CORE_SPACE: 14 
 
+# FIXME: Used in MCHL-T
+TECHLEF: nangate45.tech.lef
+CELLLEF: nangate45.cell.lef
