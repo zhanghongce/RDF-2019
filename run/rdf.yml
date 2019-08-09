@@ -31,7 +31,8 @@ flow:
 
     - stage: global_place
       tool: RePlAce         # RePlAce, EhPlacer, ComPLx, NTUPlace
-      user_parms: []
+      user_parms: 
+          target_density: 0.6
 
     - stage: detail_place
       tool: opendp

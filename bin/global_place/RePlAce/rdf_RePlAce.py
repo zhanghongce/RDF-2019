@@ -45,6 +45,10 @@ class RePlAceRunner(Stage):
         cmd += " -onlyGP"
         cmd += " -output {}".format(self.job_dir)
 
+        # FIXME: Check the existence of each user parm and its value range.
+        if "target_density" in self.user_parms.keys():
+            cmd += " -den {}".format(self.user_parms["target_density"])
+
         print(cmd)
 
         with open("{}/out/{}.log".format(self.job_dir, self.design_name), 'a') as f:
