@@ -2,7 +2,7 @@
     File name      : abc.py
     Author         : Jinwook Jung
     Created on     : Fri 26 Jul 2019 12:08:12 AM EDT
-    Last modified  : 2019-08-06 00:17:59
+    Last modified  : 2019-08-08 21:31:22
     Description    :
 '''
 
@@ -10,22 +10,34 @@ import subprocess, os, sys, random, yaml, time
 from verilog_to_blif_converter import *
 from latch_mapper import *
 
-from subprocess import Popen, PIPE, CalledProcessError
+# FIXME
+sys.path.insert(0, '../../../src/stage.py')
+from stage import *
 
-def run_shell_cmd(cmd, f=None):
-    p = subprocess.Popen(cmd,
-                         stdout=subprocess.PIPE,
-                         stderr=subprocess.STDOUT,
-                         shell=True)
 
-    for line in iter(p.stdout.readline, b''):
-        print(">>> {}".format(line.rstrip().decode("ASCII")))
+def run(config, job_dir, prev_out_dir, user_parms):
+    """ Run the point tool and store the outputs at the out directory."""
+    print("-"*79)
+    print("Running ABC...")
+    print("-"*79)
+    print("Job directory: {}".format(job_dir))
+    print("Previous stage outputs: {}".format(prev_out_dir))
+    print("")
 
-        # FIXME
-        if f is not None:
-            f.write("{}\n".format(line.rstrip().decode("ASCII")))
+    if config["design"]["bench_suite"] != "tau17":
+        print("(E) Only tau17 benchmark suites are supported.")
+        # FIXME: Raise exceptions?
+        return -1
 
-class ABCRunner(object):
+    abc_runner = ABCRunner(config, job_dir, prev_out_dir, user_parms)
+
+    abc_runner.run()
+
+    print("Done.")
+    print("")
+
+
+class ABCRunner(Stage):
     class DefaultFlop:
         def __init__(self, lib_config):
             self.name = lib_config["DEFAULT_FLOP"]
@@ -33,34 +45,8 @@ class ABCRunner(object):
             self.qpin = lib_config["DEFAULT_FLOP_QPIN"]
             self.ckpin = lib_config["DEFAULT_FLOP_CKPIN"]
 
-    def __init__(self, config, job_dir, user_parms):
-        ''' Initialize the instance and populate the necessary/useful
-        variables. '''
-        self.config = config
-        self.job_dir = job_dir
-
-        self.rdf_path = config["rdf_path"]
-        self.design_name = config["design"]["name"]
-
-        if len(config["design"]["verilog"]) > 1:
-            # FIXME: We cannot support it right now...
-            sys.exit(-1)        # Raise error, rather than exit.
-
-        self.verilog = "{}/{}".format(self.rdf_path, config["design"]["verilog"][0])
-
-        self.lib_name = config["design"]["library"]
-        self.lib_dir = "{0}/libraries/{1}".format(self.rdf_path, self.lib_name)
-        self.liberty = "{0}/libraries/{1}/{1}.lib" \
-                       .format(self.rdf_path, config["design"]["library"])
-        self.lib_config = None
-
-        lib_config_yml = "{0}/libraries/{1}/{1}.yml" \
-                         .format(self.rdf_path, self.lib_name)
-        with open(lib_config_yml) as f:
-            self.lib_config = yaml.safe_load(f)
-
-        print("verilog: {}".format(self.verilog))
-        print("liberty: {}".format(self.liberty))
+    def __init__(self, config, job_dir, prev_out_dir, user_parms):
+        super().__init__(config, job_dir, prev_out_dir, user_parms)
 
         # Used in latch mapping
         self.dff = self.DefaultFlop(self.lib_config)
@@ -90,7 +76,7 @@ class ABCRunner(object):
 
     def _write_blif(self):
         blif_converter = BlifConverter()
-        blif_converter.read_verilog(self.verilog)
+        blif_converter.read_verilog(self.in_verilog)
 #        if asserts is not None:
 #            blif_converter.read_timing(asserts)
         blif_converter.write_blif("{}/input.blif".format(self.job_dir))
@@ -141,21 +127,4 @@ class ABCRunner(object):
         mapper.read_verilog("{}/output.v".format(self.job_dir))
         mapper.map_latches("{}/out/{}.v".format(self.job_dir, self.design_name))
 
-
-def run(config, job_dir, prev_out_dir, user_parms):
-    """ Run the point tool and store the outputs at the out directory."""
-    print("running ABC...")
-    print("Run directory: {}".format(job_dir))
-    print("Previous stage outputs: {}".format(prev_out_dir))
-    print("Done.")
-    print("")
-
-    if config["design"]["bench_suite"] != "tau17":
-        print("(E) Only tau17 benchmark suites are supported.")
-        # FIXME: Raise exceptions?
-        return -1
-
-    abc_runner = ABCRunner(config, job_dir, user_parms)
-
-    abc_runner.run()
 

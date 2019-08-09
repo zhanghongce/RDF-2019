@@ -2,29 +2,22 @@
     File name      : rdf_FastRoute4-lefdef.py
     Author         : Jinwook Jung
     Created on     : Tue 30 Jul 2019 11:26:08 PM EDT
-    Last modified  : 2019-07-31 23:00:48
+    Last modified  : 2019-08-08 21:20:09
     Description    : 
 '''
 
 import subprocess, os, sys, random, yaml, time
 from subprocess import Popen, PIPE, CalledProcessError
 
-def run_shell_cmd(cmd, f=None):
-    p = subprocess.Popen(cmd,
-                         stdout=subprocess.PIPE,
-                         stderr=subprocess.STDOUT,
-                         shell=True)
-
-    for line in iter(p.stdout.readline, b''):
-        print(">>> {}".format(line.rstrip().decode("utf-8")))
-
-        # FIXME
-        if f is not None:
-            f.write("{}\n".format(str(line.rstrip())))
+# FIXME
+sys.path.insert(0, '../../../src/stage.py')
+from stage import *
 
 
 def run(config, job_dir, prev_out_dir, user_parms):
+    print("-"*79)
     print("Running FastRoute4-lefdef...")
+    print("-"*79)
     print("Job directory: {}".format(job_dir))
     print("Previous stage outputs: {}".format(prev_out_dir))
 
@@ -35,35 +28,9 @@ def run(config, job_dir, prev_out_dir, user_parms):
     print("")
 
 
-class FastRouteRunner(object):
+class FastRouteRunner(Stage):
     def __init__(self, config, job_dir, prev_out_dir, user_parms):
-        ''' Initialize the instance and populate the necessary/useful
-        variables. '''
-        self.config = config
-        self.job_dir = job_dir
-        self.prev_out_dir = prev_out_dir
-
-        self.rdf_path = config["rdf_path"]
-        self.design_name = config["design"]["name"]
-
-        self.def_in = "{}/{}.def".format(prev_out_dir, self.design_name)
-
-        self.lib_name = config["design"]["library"]
-        self.lib_dir = "{0}/libraries/{1}".format(self.rdf_path, self.lib_name)
-        self.liberty = "{0}/libraries/{1}/{1}.lib" \
-                       .format(self.rdf_path, config["design"]["library"])
-        self.lef = "{0}/libraries/{1}/{1}.lef" \
-                       .format(self.rdf_path, config["design"]["library"])
-        self.tracks = "{0}/libraries/{1}/tracks.info" \
-                       .format(self.rdf_path, config["design"]["library"])
-
-        self.lib_config = None
-
-        lib_config_yml = "{0}/libraries/{1}/{1}.yml" \
-                         .format(self.rdf_path, self.lib_name)
-        with open(lib_config_yml) as f:
-            self.lib_config = yaml.safe_load(f)
-
+        super().__init__(config, job_dir, prev_out_dir, user_parms)
 
     def run(self):
         print("Hello FastRoute4-lefdef...")
@@ -96,6 +63,9 @@ class FastRouteRunner(object):
             print(cmd)
 
             with open("{}/out/{}.log".format(self.job_dir, self.design_name), 'a') as f:
+                f.write("\n")
+                f.write("# Command: {}\n".format(cmd))
+                f.write("\n")
                 run_shell_cmd(cmd, f)
 
         cmd = "cd {};".format(self.job_dir)
@@ -106,6 +76,9 @@ class FastRouteRunner(object):
         print(cmd)
 
         with open("{}/out/{}.log".format(self.job_dir, self.design_name), 'a') as f:
+            f.write("\n")
+            f.write("# Command: {}\n".format(cmd))
+            f.write("\n")
             run_shell_cmd(cmd, f)
 
     def _copy_final_output(self):

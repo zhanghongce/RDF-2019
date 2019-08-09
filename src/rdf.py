@@ -2,7 +2,7 @@
     File name      : rdf.py
     Author         : Jinwook Jung
     Created on     : Thu 25 Jul 2019 11:33:57 PM EDT
-    Last modified  : 2019-08-05 13:29:10
+    Last modified  : 2019-08-06 00:54:44
     Description    : 
 '''
 
@@ -33,7 +33,7 @@ class RDF(object):
                 self.flow = v
 
             else:
-                print("SKIP: {}={}".format(k,v))
+                print("(I) SKIP: {}={}".format(k,v))
 
     def run(self):
         prev_out_dir = None
@@ -51,7 +51,7 @@ class RDF(object):
 
             if stage_name not in \
                     ("synth", "floorplan", "global_place", "detail_place", \
-                     "cts", "global_route"):
+                     "cts", "global_route", "detail_route"):
                 print("Not implemented yet.. skip")
                 continue
 
