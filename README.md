@@ -121,6 +121,11 @@ Current DATC Committee members
 * Victor N. Kravets - IBM Thomas J. Watson Research Center
 * Yih-Lang Li - National Chiao Tung University
 
+Code committers
+---
+* Mingyu Woo - UCSD
+* Shih-Ting Lin - NCTU
+
 Tool contributors
 ---
 * Nima Karimpour and Laleh Behjat - University of Calgary
