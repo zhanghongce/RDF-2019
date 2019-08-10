@@ -37,16 +37,24 @@ class EhPlacerRunner(Stage):
     def run(self):
         print("Hello EhPlacer...")
 
-        # Create dummy constraint file
-        cmd = "touch {}/dummy.constr".format(self.job_dir)
-        run_shell_cmd(cmd)
+        # Create constraint file
+        # FIXME: Check the existence of each user parm and its value range.
+        const_file = "{}/placement_constraints".format(self.job_dir)
+        with open(const_file, 'w') as f:
+            if "target_density" in self.user_parms.keys():
+                target_util = 100 * float(self.user_parms["target_density"])
+            else:
+                target_util = 90
+
+            f.write("maximum_utilization={}%\n".format(target_util))
 
         cmd = "cd {} && {}/bin/global_place/EhPlacer/EhPlacer_exec".format(self.job_dir, self.rdf_path)
         # FIXME: Do we need to use merged_padded_spacing.lef here?
         cmd += " -tech_lef {}".format(self.lef)
         cmd += " -cell_lef {}".format(self.lef)
         cmd += " -floorplan_def {}".format(self.in_def)
-        cmd += " -placement_constraints dummy_constr"
+        cmd += " -placement_constraints {}".format(const_file)
+        cmd += " -cpu 8"
         cmd += " -output {}/out.def".format(self.job_dir)
 
         print(cmd)

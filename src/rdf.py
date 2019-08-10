@@ -2,7 +2,7 @@
     File name      : rdf.py
     Author         : Jinwook Jung
     Created on     : Thu 25 Jul 2019 11:33:57 PM EDT
-    Last modified  : 2019-08-06 00:54:44
+    Last modified  : 2019-08-09 22:31:04
     Description    : 
 '''
 
@@ -14,8 +14,8 @@ from shutil import copyfile
 import importlib
 
 class RDF(object):
-    def __init__(self, config, job_dir):
-        self.config = config
+    def __init__(self, config_yml, config, job_dir):
+        self.config_yml, self.config = config_yml, config
         self.job_dir = job_dir
         self.design_data = dict()
         self.flow = None
@@ -36,6 +36,9 @@ class RDF(object):
                 print("(I) SKIP: {}={}".format(k,v))
 
     def run(self):
+        # Copy the current config file.
+        copyfile(self.config_yml, "{}/{}".format(self.job_dir, self.config_yml))
+
         prev_out_dir = None
         for stage in self.flow:
             stage_name = stage["stage"]
@@ -52,7 +55,7 @@ class RDF(object):
             if stage_name not in \
                     ("synth", "floorplan", "global_place", "detail_place", \
                      "cts", "global_route", "detail_route"):
-                print("Not implemented yet.. skip")
+                print("(W) Not implemented yet.. skip")
                 continue
 
             runpy = "{0}/{1}/{2}/{3}/rdf_{3}".format(rdf_dir, "bin", stage_name, tool)
@@ -79,7 +82,8 @@ if __name__ == '__main__':
     parser.add_argument("--test", action="store_true")
     args, _ = parser.parse_known_args()
 
-    with open(args.config) as f:
+    config_yml = args.config
+    with open(config_yml) as f:
         config = yaml.safe_load(f)
 
     cur_dir = os.getcwd()
@@ -101,7 +105,7 @@ if __name__ == '__main__':
         shutil.rmtree(job_id, ignore_errors=True)
     os.mkdir(job_id)
 
-    rdf = RDF(config, job_dir)
+    rdf = RDF(config_yml, config, job_dir)
     rdf.process_config()
     rdf.run()
 

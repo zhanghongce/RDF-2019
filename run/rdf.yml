@@ -10,7 +10,7 @@ design:
     library:     nangate45
 
     # Floorplan configuration
-    target_utilization: 50
+    target_utilization: 40
     aspect_ratio: 1
 
     # Input Verilog files (can be multiple files)
