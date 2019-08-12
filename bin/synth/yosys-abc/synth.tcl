@@ -7,10 +7,14 @@ set abc_script  "+read_constr,ac97_ctrl.sdc;strash;ifraig;retime,-D,{D},-M,6;str
 
 # Reading blackbox implementation of standard cells (treated as blackboxes)
 read_verilog NangateOpenCellLibrary.blackbox.v
-read_verilog s5378.v
+read_verilog ../../../../benchmarks/iwls2005/IWLS_benchmarks_2005_V_1.0/opencores/rtl/tv80/tv80_alu.v
+read_verilog ../../../../benchmarks/iwls2005/IWLS_benchmarks_2005_V_1.0/opencores/rtl/tv80/tv80_core.v
+read_verilog ../../../../benchmarks/iwls2005/IWLS_benchmarks_2005_V_1.0/opencores/rtl/tv80/tv80_mcode.v
+read_verilog ../../../../benchmarks/iwls2005/IWLS_benchmarks_2005_V_1.0/opencores/rtl/tv80/tv80_reg.v
+read_verilog ../../../../benchmarks/iwls2005/IWLS_benchmarks_2005_V_1.0/opencores/rtl/tv80/tv80s.v
 
 # generic synthesis
-synth  -top s5378_bench -flatten
+synth  -top tv80s -flatten
 opt_clean -purge
 
 # mapping for Registers
@@ -19,7 +23,7 @@ dfflibmap -liberty nangate45.lib
 # TODO: Not sure why we have to set these seeing as we are passing sdc?
 # mapping for technology
 abc -D [expr 50 * 1000] \
-    -constr s5378.sdc \
+    -constr tv80.sdc \
     -liberty nangate45.lib \
     -script $abc_script
 

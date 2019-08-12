@@ -1,5 +1,5 @@
 # global parameters
-set check         # checks intermediate networks
+#set check         # checks intermediate networks
 #set checkfio      # prints warnings when fanins/fanouts are duplicated
 #unset checkread   # does not check new networks after reading from file
 #set backup        # saves backup networks retrived by "undo" and "recall"

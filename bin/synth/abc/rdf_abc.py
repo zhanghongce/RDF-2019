@@ -76,7 +76,10 @@ class ABCRunner(Stage):
 
     def _write_blif(self):
         blif_converter = BlifConverter()
-        blif_converter.read_verilog(self.in_verilog)
+
+        # TODO: Check whether the lenght of design verilogs is 1
+        blif_converter.read_verilog(self.design_verilogs[0])
+
 #        if asserts is not None:
 #            blif_converter.read_timing(asserts)
         blif_converter.write_blif("{}/input.blif".format(self.job_dir))

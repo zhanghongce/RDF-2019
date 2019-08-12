@@ -45,10 +45,13 @@ class Stage(ABC):
             self.in_sdc = "{}/{}.sdc".format(prev_out_dir, self.design_name)
         else:
             # If this is the first stage, just use the original design file
-            self.in_verilog = "{}/{}".format(self.rdf_path, self.design["verilog"][0])
-
             # FIXME
+            self.in_verilog = None
+            self.in_def = None
             self.in_sdc = "{}/{}.sdc".format(self.rdf_path, self.design_name)
+
+            print(self.design["verilog"])
+            self.design_verilogs = ["{}/{}".format(self.rdf_path, _) for _ in self.design["verilog"]]
 
         # Library/PDK
         self.lib_name = config["design"]["library"]
