@@ -1,14 +1,28 @@
 DATC Robust Design Flow 2019
 ===
 
+Introduction...
+
+Getting Started
+---
+
 You can run it by:
 ```
 cd run
 python ../src/rdf.py --config rdf.yml --test
 ```
 
-Job Configuration
+
+RDF Configuration
 ---
+
+### Design configuration
+
+
+### Flow configuration
+
+
+### Example YAML config file
 
 Example RDF configuration file in YAML format:
 
@@ -69,38 +83,12 @@ flow:
       user_parms: []
 ```
 
-Tool binaries
-===
-
-`./bin/<stage>/<tool_name>/`
-
-Each tool must include runner python script.
-This python script takes json file, which describes the parameters to run.
 
 
-Please Ignore Below
+Preparing Libraries
 ---
 
-Binaries are stored in `./bin`.
-
-Every single run is performed within `./run` directory.
-Each run creates a workspace named `rdf.YYMMDD.hhmmss`.
-
-A workspace has job configuration.
-A job configuration has the following information
-
-* Design name
-* Verilog
-* SDC file
-* Library
-* Utilization (default=0.5), aspect ratio (default=1)
-
-* Clock port, clock period
-
-
-Populate necessary library files (for ASAP 7nm and RDF)
----
-
+Explain using ASAP7 as an example.
 ```
 magic.tech
 tracks.info
@@ -108,11 +96,23 @@ tritonCTS LUTs
 gds
 ```
 
-Contributors
-===
 
-Current DATC Committee members
+Adding Your Pont Tool Binaries
 ---
+
+`./bin/<stage>/<tool_name>/`
+
+Each tool must include runner python script.
+This python script takes json file, which describes the parameters to run.
+
+RDF will call `<rdf_path>/bin/<stage>/<tool_name>/rdf_<tool_name>.py`.
+
+
+
+Contributors
+---
+
+### Current DATC Committee members
 
 * Iris Hui-Ru Jiang - National Taiwan University
 * Andrew B. Kahng - University of California San Diego
@@ -121,14 +121,15 @@ Current DATC Committee members
 * Victor N. Kravets - IBM Thomas J. Watson Research Center
 * Yih-Lang Li - National Chiao Tung University
 
-Code committers
----
+### Code committers
+
 * Mingyu Woo - UCSD
 * Shih-Ting Lin - NCTU
 
-Tool contributors
----
+### Tool contributors
+
 * Nima Karimpour and Laleh Behjat - University of Calgary
-* Myung-Chul Kim and Igor Markov
+* Myung-Chul Kim and Igor Markov (for ComPLx)
+* Shinichi Nishizawa and Hidetoshi Onodera (for NCTUcell)
 * OpenROAD team
 
