@@ -50,7 +50,7 @@ class NTUplaceRunner(Stage):
 
     def _write_bookshelf(self):
         cmd = "cd {} && {}/src/util/lefdef_util/bookshelf_writer/bookshelf_writer".format(self.job_dir, self.rdf_path)
-        cmd += " --lef {}".format(self.lef)
+        cmd += " --lef {}".format(self.lef_mod)
         cmd += " --def {}".format(self.in_def)
 
         print(cmd)
@@ -77,7 +77,7 @@ class NTUplaceRunner(Stage):
 
     def _write_def(self):
         cmd = "cd {} && {}/src/util/lefdef_util/place_updater/place_updater".format(self.job_dir, self.rdf_path)
-        cmd += " --lef {}".format(self.lef)
+        cmd += " --lef {}".format(self.lef_mod)
         cmd += " --def {}".format(self.in_def)
         cmd += " --pl {}/out.ntup.pl".format(self.job_dir)
 

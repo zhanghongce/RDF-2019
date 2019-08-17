@@ -50,8 +50,8 @@ class EhPlacerRunner(Stage):
 
         cmd = "cd {} && {}/bin/global_place/EhPlacer/EhPlacer_exec".format(self.job_dir, self.rdf_path)
         # FIXME: Do we need to use merged_padded_spacing.lef here?
-        cmd += " -tech_lef {}".format(self.lef)
-        cmd += " -cell_lef {}".format(self.lef)
+        cmd += " -tech_lef {}".format(self.lef_mod)
+        cmd += " -cell_lef {}".format(self.lef_mod)
         cmd += " -floorplan_def {}".format(self.in_def)
         cmd += " -placement_constraints {}".format(const_file)
         cmd += " -cpu 8"

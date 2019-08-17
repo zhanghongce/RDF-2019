@@ -38,12 +38,12 @@ class YosysRunner(Stage):
         if user_parms is None or len(user_parms) == 0:
             self.script = 'resyn2rs'
             self.map = 'map -p'
-            self.max_fanout = 16
+            self.max_fanout = 8
         else:
             # FIXME...
-            self.script = 'resyn2'
+            self.script = 'resyn2rs'
             self.map = 'map'
-            self.max_fanout = 16
+            self.max_fanout = 8
 
     def run(self):
         print("Hello Yosys...")
