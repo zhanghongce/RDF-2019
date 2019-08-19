@@ -12,14 +12,16 @@ cd run
 python ../src/rdf.py --config rdf.yml --test
 ```
 
-
-RDF Configuration
+Configuring RDF Flow
 ---
 
 ### Design configuration
 
 
 ### Flow configuration
+
+
+### Library configuration
 
 
 ### Example YAML config file
