@@ -1,7 +1,16 @@
 DATC Robust Design Flow 2019
 ===
 
-Introduction...
+RDF-2019 enhances the DATC RDF to span the entire RTL-to-GDS IC implementation flow, from logic synthesis to detailed routing.
+The new release represents a significant revision of the previously-reported [RDF-2018 flow](https://github.com/ieee-ceda-datc/RDF-2018). 
+Noteworthy *vertical* extensions include:
+- **Addition of logic synthesis** starting from pure behavioral RTL Verilog RTL
+- **Floorplanning** that includes initial DEF creation, I/O placement and PDN layout generation
+- **Clock tree synthesis** between placement legalization and global routing
+
+A number of *horizontal* extensions to RDF are achieved by incorporating additional tool options at each stage. 
+Last, RDF-2019 provides significantly enhanced support of and interoperability with industry-standard tools and design formats (LEF/DEF, SPEF, Liberty, SDC, etc.).
+
 
 Getting Started
 ---
