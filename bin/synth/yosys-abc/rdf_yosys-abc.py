@@ -13,7 +13,7 @@ sys.path.insert(0, '../../../src/stage.py')
 from stage import *
 
 
-def run(config, job_dir, prev_out_dir, user_parms, write_scripts=False):
+def run(config, job_dir, prev_out_dir, user_parms, write_run_scripts=False):
     """ Run the point tool and store the outputs at the out directory."""
     print("-"*79)
     print("Running Yosys-ABC...")
@@ -24,10 +24,10 @@ def run(config, job_dir, prev_out_dir, user_parms, write_scripts=False):
 
     yosys_runner = YosysRunner(config, job_dir, prev_out_dir, user_parms)
 
-    if write_scripts:
-        yosys_runner.write_scripts()
+    if write_run_scripts:
+        yosys_runner.write_run_scripts()
     else:
-        yosys_runner.write_scripts()
+        yosys_runner.write_run_scripts()
         yosys_runner.run()
 
     print("Done.")
@@ -54,20 +54,19 @@ class YosysRunner(Stage):
             self.map = 'map -p'
             self.max_fanout = 8
 
-    def write_run_script(self):
+    def write_run_scripts(self):
         self._write_abc_script_txt()
+
         self._write_synth_tcl()
 
         yosys_bin = "{}/bin/synth/yosys-abc/yosys".format(self.rdf_path)
         cmd = "cd {}; {} -c synth.tcl".format(self.job_dir, yosys_bin)
 
-        with open("{}/run.sh".format(self.job_dir, 'w') as f:
+        with open("{}/run.sh".format(self.job_dir), 'w') as f:
             f.write("cd {}\n".format(self.job_dir))
-            f.write("{} -c synth.tcl".format(self.job_dir, yosys_bin))
+            f.write("{} -c synth.tcl".format(yosys_bin))
 
     def run(self):
-        print("Hello Yosys...")
-
         self._write_abc_script_txt()
 
         self._write_synth_tcl()

@@ -26,7 +26,7 @@ def run_shell_cmd(cmd, f=None):
 
 
 class Stage(ABC):
-    def __init__(self, config, job_dir, prev_out_dir, user_parms):
+    def __init__(self, config, job_dir, prev_out_dir, user_parms, write_run_scripts=False):
         ''' Initialize the instance and populate the necessary/useful
         variables. '''
         self.config = config
@@ -79,5 +79,5 @@ class Stage(ABC):
         pass
 
     @abstractmethod
-    def write_run_script(self):
+    def write_run_scripts(self):
         pass
