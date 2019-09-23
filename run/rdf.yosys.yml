@@ -4,34 +4,43 @@ rdf_path: /afs/apd/func/vlsi/eclipz/l14/usr/jungj/sndd1/vols/datc/RDF-2019
 job_dir: /path/to/job/directory/not/implemented/yet
 
 design:
-    name:        tv80s
-    clock_port:  clk
+    name:        des3
+    clock_port:  MY_CLK
     bench_suite: iwls2005
-    library:     nangate45
-
-    # Floorplan configuration
-    target_utilization: 40
-    aspect_ratio: 1
 
     # Input Verilog files (can be multiple files)
     verilog:     
-        - benchmarks/iwls2005/IWLS_benchmarks_2005_V_1.0/opencores/rtl/tv80/tv80_alu.v
-        - benchmarks/iwls2005/IWLS_benchmarks_2005_V_1.0/opencores/rtl/tv80/tv80_core.v
-        - benchmarks/iwls2005/IWLS_benchmarks_2005_V_1.0/opencores/rtl/tv80/tv80_mcode.v
-        - benchmarks/iwls2005/IWLS_benchmarks_2005_V_1.0/opencores/rtl/tv80/tv80_reg.v
-        - benchmarks/iwls2005/IWLS_benchmarks_2005_V_1.0/opencores/rtl/tv80/tv80s.v
+        - benchmarks/iwls2005/des3_perf/crp.v
+        - benchmarks/iwls2005/des3_perf/key_sel.v
+        - benchmarks/iwls2005/des3_perf/sbox1.v
+        - benchmarks/iwls2005/des3_perf/sbox2.v
+        - benchmarks/iwls2005/des3_perf/sbox3.v
+        - benchmarks/iwls2005/des3_perf/sbox4.v
+        - benchmarks/iwls2005/des3_perf/sbox5.v
+        - benchmarks/iwls2005/des3_perf/sbox6.v
+        - benchmarks/iwls2005/des3_perf/sbox7.v
+        - benchmarks/iwls2005/des3_perf/sbox8.v
+        - benchmarks/iwls2005/des3_perf/des.v
+        - benchmarks/iwls2005/des3_perf/des3.v
 
-flow:
+config:
+    library: nangate45
+    timer: opensta
+    sizer: resizer
+
+stages:
     - stage: synth
       tool: yosys-abc # ABC or Yosys
       user_parms: 
           max_fanout: 16
           script: resyn2
           map:    map
-
+          
     - stage: floorplan
       tool: TritonFP 
-      user_parms: []
+      user_parms:
+          target_utilization: 20
+          aspect_ratio: 1
 
     - stage: global_place
       tool: RePlAce         # RePlAce, EhPlacer, ComPLx, NTUPlace

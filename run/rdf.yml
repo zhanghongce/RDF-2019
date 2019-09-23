@@ -30,23 +30,23 @@ flow:
       user_parms: []
 
     - stage: global_place
-      tool: RePlAce         # RePlAce, EhPlacer, ComPLx, NTUPlace
+      tool: FZUplace       # RePlAce, EhPlacer, ComPLx, FZUplace, NTUplace3
       user_parms: 
           target_density: 0.6
 
     - stage: detail_place
       tool: opendp
       user_parms: []
-
-    - stage: cts
-      tool: TritonCTS
-      user_parms: []
-
-    - stage: global_route
-      tool: FastRoute4-lefdef
-      user_parms: []
-
-    - stage: detail_route
-      tool: TritonRoute
-      user_parms: []
-
+      #
+      #    - stage: cts
+      #      tool: TritonCTS
+      #      user_parms: []
+      #
+      #    - stage: global_route
+      #      tool: FastRoute4-lefdef
+      #      user_parms: []
+      #
+      #    - stage: detail_route
+      #      tool: TritonRoute
+      #      user_parms: []
+      #

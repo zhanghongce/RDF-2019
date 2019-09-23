@@ -77,3 +77,7 @@ class Stage(ABC):
     @abstractmethod
     def run(self):
         pass
+
+    @abstractmethod
+    def write_run_script(self):
+        pass

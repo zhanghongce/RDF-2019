@@ -35,7 +35,7 @@ class RDF(object):
             else:
                 print("(I) SKIP: {}={}".format(k,v))
 
-    def run(self):
+    def run(self, write_scripts=False):
         # Copy the current config file.
         copyfile(self.config_yml, "{}/{}".format(self.job_dir, self.config_yml))
 
@@ -65,20 +65,21 @@ class RDF(object):
             sys.path.insert(0, path.dirname(runpy))
             module = importlib.import_module("rdf_{}".format(tool))
 
-            module.run(config, run_dir, prev_out_dir, user_parms)
+            if write_scripts:
+                module.run(config, run_dir, prev_out_dir, user_parms, write_scripts=True)
+            else:
+                module.run(config, run_dir, prev_out_dir, user_parms)
             prev_out_dir = out_dir
 
             print("Done: {}.".format(stage_name))
             print("")
-
-    def _run_stage(self):
-        pass
 
 
 if __name__ == '__main__':
     import argparse
     parser = argparse.ArgumentParser()
     parser.add_argument("--config", action="store", required=True)
+    parser.add_argument("--write-scripts", action="store_true")
     parser.add_argument("--test", action="store_true")
     args, _ = parser.parse_known_args()
 
@@ -107,5 +108,9 @@ if __name__ == '__main__':
 
     rdf = RDF(config_yml, config, job_dir)
     rdf.process_config()
-    rdf.run()
+    if args.write_scripts:
+        rdf.write_scripts()
+    else:
+        rdf.run()
+
 

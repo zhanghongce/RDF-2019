@@ -2,7 +2,7 @@
     File name      : abc.py
     Author         : Jinwook Jung
     Created on     : Sun 28 Jul 2019 12:08:12 AM EDT
-    Last modified  : 2019-08-11 23:30:31
+    Last modified  : 2019-08-26 22:21:53
     Description    :
 '''
 
@@ -13,7 +13,7 @@ sys.path.insert(0, '../../../src/stage.py')
 from stage import *
 
 
-def run(config, job_dir, prev_out_dir, user_parms):
+def run(config, job_dir, prev_out_dir, user_parms, write_scripts=False):
     """ Run the point tool and store the outputs at the out directory."""
     print("-"*79)
     print("Running Yosys-ABC...")
@@ -24,7 +24,11 @@ def run(config, job_dir, prev_out_dir, user_parms):
 
     yosys_runner = YosysRunner(config, job_dir, prev_out_dir, user_parms)
 
-    yosys_runner.run()
+    if write_scripts:
+        yosys_runner.write_scripts()
+    else:
+        yosys_runner.write_scripts()
+        yosys_runner.run()
 
     print("Done.")
     print("")
@@ -39,11 +43,27 @@ class YosysRunner(Stage):
             self.script = 'resyn2rs'
             self.map = 'map -p'
             self.max_fanout = 8
-        else:
-            # FIXME...
+
+        # FIXME
+        try:
+            self.script = user_parms["script"]
+            self.map = user_parms["map"]
+            self.max_fanout = user_parms["max_fanout"]
+        except KeyError:
             self.script = 'resyn2rs'
-            self.map = 'map'
+            self.map = 'map -p'
             self.max_fanout = 8
+
+    def write_run_script(self):
+        self._write_abc_script_txt()
+        self._write_synth_tcl()
+
+        yosys_bin = "{}/bin/synth/yosys-abc/yosys".format(self.rdf_path)
+        cmd = "cd {}; {} -c synth.tcl".format(self.job_dir, yosys_bin)
+
+        with open("{}/run.sh".format(self.job_dir, 'w') as f:
+            f.write("cd {}\n".format(self.job_dir))
+            f.write("{} -c synth.tcl".format(self.job_dir, yosys_bin))
 
     def run(self):
         print("Hello Yosys...")
