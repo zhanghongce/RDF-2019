@@ -1,8 +1,8 @@
 '''
-    File name      : abc.py
+    File name      : rdf_yosys-abc.py
     Author         : Jinwook Jung
     Created on     : Sun 28 Jul 2019 12:08:12 AM EDT
-    Last modified  : 2019-08-26 22:21:53
+    Last modified  : 2019-10-30 17:37:36
     Description    :
 '''
 

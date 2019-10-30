@@ -2,7 +2,7 @@
     File name      : rdf_RePlAce.py
     Author         : Jinwook Jung
     Created on     : Tue 30 Jul 2019 10:31:18 PM EDT
-    Last modified  : 2019-08-08 21:39:33
+    Last modified  : 2019-10-30 17:37:33
     Description    : 
 '''
 
@@ -14,7 +14,7 @@ sys.path.insert(0, '../../../src/stage.py')
 from stage import *
 
 
-def run(config, job_dir, prev_out_dir, user_parms):
+def run(config, job_dir, prev_out_dir, user_parms, write_run_scripts=False):
     print("-"*79)
     print("Running RePlAce...")
     print("-"*79)
@@ -22,7 +22,10 @@ def run(config, job_dir, prev_out_dir, user_parms):
     print("Previous stage outputs: {}".format(prev_out_dir))
 
     replace = RePlAceRunner(config, job_dir, prev_out_dir, user_parms)
-    replace.run()
+    replace.write_run_scripts()
+
+    if not write_run_scripts:
+        replace.run()
 
     print("Done.")
     print("")
@@ -33,6 +36,18 @@ class RePlAceRunner(Stage):
         super().__init__(config, job_dir, prev_out_dir, user_parms)
 
         self.lef_mod = "{}/merged_padded_spacing.lef".format(self.lib_dir)
+
+    def write_run_scripts(self):
+        cmd = "{}/bin/global_place/RePlAce/RePlAce".format(self.rdf_path)
+        cmd += " -bmflag etc"
+        # cmd += " -lef {}".format(self.lef)
+        cmd += " -lef {}".format(self.lef_mod)
+        cmd += " -def {}".format(self.in_def)
+        cmd += " -onlyGP"
+        cmd += " -output {}".format(self.job_dir)
+
+        with open("{}/run.sh".format(self.job_dir), 'w') as f:
+            f.write("{}\n".format(cmd))
 
     def run(self):
         print("Hello RePlAce...")
