@@ -2,7 +2,7 @@
     File name      : rdf_TritonCTS.py
     Author         : Jinwook Jung
     Created on     : Tue 30 Jul 2019 11:26:08 PM EDT
-    Last modified  : 2019-08-08 21:25:43
+    Last modified  : 2019-10-30 22:08:25
     Description    : 
 '''
 
@@ -14,7 +14,7 @@ sys.path.insert(0, '../../../src/stage.py')
 from stage import *
 
 
-def run(config, job_dir, prev_out_dir, user_parms):
+def run(config, job_dir, prev_out_dir, user_parms, write_run_scripts=False):
     print("-"*79)
     print("Running TritonCTS...")
     print("-"*79)
@@ -22,7 +22,10 @@ def run(config, job_dir, prev_out_dir, user_parms):
     print("Previous stage outputs: {}".format(prev_out_dir))
 
     triton_cts = TritonCTSRunner(config, job_dir, prev_out_dir, user_parms)
-    triton_cts.run()
+    triton_cts.write_run_scripts()
+
+    if not write_run_scripts:
+        triton_cts.run()
 
     print("Done.")
     print("")
@@ -31,6 +34,34 @@ def run(config, job_dir, prev_out_dir, user_parms):
 class TritonCTSRunner(Stage):
     def __init__(self, config, job_dir, prev_out_dir, user_parms):
         super().__init__(config, job_dir, prev_out_dir, user_parms)
+
+    def write_run_scripts(self):
+        self._write_config_file()
+
+        # Write run script
+        with open("{}/run.sh".format(self.job_dir), 'w') as f:
+            cmd = "{}/bin/cts/TritonCTS/runTritonCTS.tcl".format(self.rdf_path)
+            cmd += " -configFilePath={}/{}".format(self.job_dir, "triton_cts.cfg")
+            cmd += " -scriptsPath={}/bin/cts/TritonCTS/scripts".format(self.rdf_path)
+            cmd += " -techFilesPath={}/{}".format(self.lib_dir, self.lib_config["CTS_TECH_DIR"])
+            cmd += " -lefDefParserPath={}/bin/cts/TritonCTS/bin/lefdef2cts".format(self.rdf_path)
+            cmd += " -executablePath={}/bin/cts/TritonCTS/bin/genHtree".format(self.rdf_path)
+            cmd += " -legalizerPath={}/bin/detail_place/opendp/opendp".format(self.rdf_path)
+            cmd += " -outputPath={}/TritonCTS".format(self.job_dir)
+
+            f.write("{}\n".format(cmd))
+
+            # Copy final output
+            cmd = "ln -s {0}/TritonCTS/cts_final.def {0}/out/{1}.def" \
+                  .format(self.job_dir, self.design_name)
+
+            f.write("{}\n".format(cmd))
+
+            # Copy previous verilog file
+            cmd = "ln -s {0}/{1}.v {2}/out/{1}.v" \
+                  .format(self.prev_out_dir, self.design_name, self.job_dir)
+
+            f.write("{}\n".format(cmd))
 
     def run(self):
         print("Hello TritonCTS...")

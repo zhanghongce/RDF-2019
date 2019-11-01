@@ -38,16 +38,29 @@ class RePlAceRunner(Stage):
         self.lef_mod = "{}/merged_padded_spacing.lef".format(self.lib_dir)
 
     def write_run_scripts(self):
-        cmd = "{}/bin/global_place/RePlAce/RePlAce".format(self.rdf_path)
-        cmd += " -bmflag etc"
-        # cmd += " -lef {}".format(self.lef)
-        cmd += " -lef {}".format(self.lef_mod)
-        cmd += " -def {}".format(self.in_def)
-        cmd += " -onlyGP"
-        cmd += " -output {}".format(self.job_dir)
-
         with open("{}/run.sh".format(self.job_dir), 'w') as f:
+            cmd = "{}/bin/global_place/RePlAce/RePlAce".format(self.rdf_path)
+            cmd += " -bmflag etc"
+            # cmd += " -lef {}".format(self.lef)
+            cmd += " -lef {}".format(self.lef_mod)
+            cmd += " -def {}".format(self.in_def)
+            cmd += " -onlyGP"
+            cmd += " -output {}".format(self.job_dir)
+
             f.write("{}\n".format(cmd))
+
+            cmd = "ln -s {0}/etc/{1}/experiment000/{1}_final.def {0}/out/{1}.def" \
+                  .format(self.job_dir, self.design_name)
+
+            f.write("{}\n".format(cmd))
+
+            # Copy previous verilog file
+            cmd = "ln -s {0}/{1}.v {2}/out/{1}.v" \
+                  .format(self.prev_out_dir, self.design_name, self.job_dir)
+
+            f.write("{}\n".format(cmd))
+
+
 
     def run(self):
         print("Hello RePlAce...")

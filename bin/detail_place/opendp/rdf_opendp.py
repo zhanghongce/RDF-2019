@@ -14,7 +14,7 @@ sys.path.insert(0, '../../../src/stage.py')
 from stage import *
 
 
-def run(config, job_dir, prev_out_dir, user_parms):
+def run(config, job_dir, prev_out_dir, user_parms, write_run_scripts=False):
     print("-"*79)
     print("Running OpenDP...")
     print("-"*79)
@@ -22,7 +22,10 @@ def run(config, job_dir, prev_out_dir, user_parms):
     print("Previous stage outputs: {}".format(prev_out_dir))
 
     opendp = OpenDPRunner(config, job_dir, prev_out_dir, user_parms)
-    opendp.run()
+    opendp.write_run_scripts()
+
+    if not write_run_scripts:
+        opendp.run()
 
     print("Done.")
     print("")
@@ -33,6 +36,17 @@ class OpenDPRunner(Stage):
         super().__init__(config, job_dir, prev_out_dir, user_parms)
 
         self.lef_mod = "{}/merged_padded_spacing.lef".format(self.lib_dir)
+
+    def write_run_scripts(self):
+        cmd = "{}/bin/detail_place/opendp/opendp".format(self.rdf_path)
+        #cmd += " -lef {}".format(self.lef)
+        cmd += " -lef {}".format(self.lef_mod)
+        cmd += " -def {}".format(self.in_def)
+        cmd += " -cpu 4"
+        cmd += " -output_def {}/out/{}.def".format(self.job_dir, self.design_name)
+
+        with open("{}/run.sh".format(self.job_dir), 'w') as f:
+            f.write("{}\n".format(cmd))
 
     def run(self):
         print("Hello OpenDP...")
