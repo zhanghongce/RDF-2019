@@ -1,0 +1,84 @@
+
+Cadence Innovus(TM) Implementation System.
+Copyright 2018 Cadence Design Systems, Inc. All rights reserved worldwide.
+
+Version:	v18.12-s106_1, built Tue Dec 11 14:18:32 PST 2018
+Options:	
+Date:		Sat Aug  3 23:55:07 2019
+Host:		gridl138.pok.ibm.com (x86_64 w/Linux 2.6.32-696.28.1.el6.x86_64) (6cores*24cpus*Intel(R) Xeon(R) CPU X5690 @ 3.47GHz 12288KB)
+OS:		Red Hat Enterprise Linux Workstation release 6.4 (Santiago)
+
+License:
+		invs	Innovus Implementation System	18.1	checkout succeeded
+		8 CPU jobs allowed with the current license(s). Use setMultiCpuUsage to set your required CPU count.
+The soft stacksize limit is either up to the hard limit or larger than 0.2%RAM. No change is needed.
+
+**INFO:  MMMC transition support version v31-84 
+
+<CMD> set_global _enable_mmmc_by_default_flow      $CTE::mmmc_default
+<CMD> suppressMessage ENCEXT-2799
+<CMD> getVersion
+<CMD> win
+<CMD> loadLefFile nctu.lef
+
+Loading LEF file nctu.lef ...
+Set DBUPerIGU to M1 pitch 576.
+
+##  Check design process and node:  ##
+##  Both design process and tech node are not set.
+
+**WARN: (IMPLF-45):	Macro 'AND2x11_ASAP7_75t_SL' has no SITE statement and it is a class
+CORE macro that requires a SITE statement. The SITE coreSite is
+chosen because it is a core site with height 1.0800 that matches the macro
+SIZE height.
+**WARN: (IMPLF-45):	Macro 'AND2x13_ASAP7_75t_SL' has no SITE statement and it is a class
+CORE macro that requires a SITE statement. The SITE coreSite is
+chosen because it is a core site with height 1.0800 that matches the macro
+SIZE height.
+**WARN: (IMPLF-45):	Macro 'AND2x14_ASAP7_75t_SL' has no SITE statement and it is a class
+CORE macro that requires a SITE statement. The SITE coreSite is
+chosen because it is a core site with height 1.0800 that matches the macro
+SIZE height.
+**WARN: (IMPLF-45):	Macro 'AND2x3_ASAP7_75t_SL' has no SITE statement and it is a class
+CORE macro that requires a SITE statement. The SITE coreSite is
+chosen because it is a core site with height 1.0800 that matches the macro
+SIZE height.
+**WARN: (IMPLF-45):	Macro 'AND2x4_ASAP7_75t_SL' has no SITE statement and it is a class
+CORE macro that requires a SITE statement. The SITE coreSite is
+chosen because it is a core site with height 1.0800 that matches the macro
+SIZE height.
+**WARN: (IMPLF-45):	Macro 'AND2x6_ASAP7_75t_SL' has no SITE statement and it is a class
+CORE macro that requires a SITE statement. The SITE coreSite is
+chosen because it is a core site with height 1.0800 that matches the macro
+SIZE height.
+**WARN: (IMPLF-45):	Macro 'AND2x7_ASAP7_75t_SL' has no SITE statement and it is a class
+CORE macro that requires a SITE statement. The SITE coreSite is
+chosen because it is a core site with height 1.0800 that matches the macro
+SIZE height.
+**WARN: (IMPLF-45):	Macro 'AND2x9_ASAP7_75t_SL' has no SITE statement and it is a class
+CORE macro that requires a SITE statement. The SITE coreSite is
+chosen because it is a core site with height 1.0800 that matches the macro
+SIZE height.
+**WARN: (IMPLF-45):	Macro 'AO221x1_ASAP7_75t_SL' has no SITE statement and it is a class
+CORE macro that requires a SITE statement. The SITE coreSite is
+chosen because it is a core site with height 1.0800 that matches the macro
+SIZE height.
+**WARN: (IMPLF-45):	Macro 'AO222x2_ASAP7_75t_SL' has no SITE statement and it is a class
+CORE macro that requires a SITE statement. The SITE coreSite is
+chosen because it is a core site with height 1.0800 that matches the macro
+SIZE height.
+**WARN: (IMPLF-45):	Macro 'AO332x1_ASAP7_75t_SL' has no SITE statement and it is a class
+CORE macro that requires a SITE statement. The SITE coreSite is
+chosen because it is a core site with height 1.0800 that matches the macro
+SIZE height.
+WARNING (LEFPARS-2065): Either PATH, RECT or POLYGON statement is a required in MACRO/PIN/PORT. See file nctu.lef at line 1300.
+**ERROR: (IMPLF-53):	The layer 'M0' referenced in pin 'Y' in macro 'AOI21x1_ASAP7_75t_SL' is not found in the database. A layer must be defined in the LEF technology LAYER section before it can be referenced from a macro. Review the LEF files specified in the init_lef_file variable to see if the layer does not exist or is specified after the one that defines the macro.
+Type 'man IMPLF-53' for more detail.
+**ERROR: (IMPLF-3):	Error found when processing LEF file 'nctu.lef'. The subsequent file content is ignored. Refer to error messages above for details. Fix the errors, and restart 'Innovus' again.
+Type 'man IMPLF-3' for more detail.
+
+
+*** Memory Usage v#1 (Current mem = 531.215M, initial mem = 227.383M) ***
+*** Message Summary: 11 warning(s), 2 error(s)
+
+--- Ending "Innovus" (totcpu=0:00:44.0, real=0:07:41, mem=531.2M) ---

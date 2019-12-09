@@ -125,10 +125,10 @@ Contributors
 
 ### Current DATC Committee members
 
-* Iris Hui-Ru Jiang - National Taiwan University
-* Andrew B. Kahng - University of California San Diego
 * Jianli Chen - Fuzhou University
+* Iris Hui-Ru Jiang - National Taiwan University
 * Jinwook Jung - IBM Thomas J. Watson Research Center
+* Andrew B. Kahng - University of California San Diego
 * Victor N. Kravets - IBM Thomas J. Watson Research Center
 * Yih-Lang Li - National Chiao Tung University
 

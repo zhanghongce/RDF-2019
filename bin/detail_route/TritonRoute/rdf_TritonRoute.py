@@ -14,7 +14,7 @@ sys.path.insert(0, '../../../src/stage.py')
 from stage import *
 
 
-def run(config, job_dir, prev_out_dir, user_parms):
+def run(config, job_dir, prev_out_dir, user_parms, write_run_scripts=False):
     print("-"*79)
     print("Running TritonRoute...")
     print("-"*79)
@@ -22,7 +22,10 @@ def run(config, job_dir, prev_out_dir, user_parms):
     print("Previous stage outputs: {}".format(prev_out_dir))
 
     triton_route = TritonRouteRunner(config, job_dir, prev_out_dir, user_parms)
-    triton_route.run()
+    triton_route.write_run_scripts()
+
+    if not write_run_scripts:
+        triton_route.run()
 
     print("Done.")
     print("")
@@ -34,6 +37,16 @@ class TritonRouteRunner(Stage):
 
         self.lef_mod = "{}/merged_padded_spacing.lef".format(self.lib_dir)
         self.in_guide = "{}/{}.guide".format(self.prev_out_dir, self.design_name)
+
+    def write_run_scripts(self):
+        self._write_parm_file()
+
+        with open("{}/run.sh".format(self.job_dir), 'w') as f:
+            cmd = "cd {};".format(self.job_dir)
+            cmd += "{}/bin/detail_route/TritonRoute/TritonRoute".format(self.rdf_path)
+            cmd += " triton_route.parm"
+
+            f.write("{}\n".format(cmd))
 
     def run(self):
         print("Hello TritonRoute...")

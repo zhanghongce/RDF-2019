@@ -36,6 +36,7 @@ class Stage(ABC):
         self.rdf_path = config["rdf_path"]
         self.design_name = config["design"]["name"]
         self.design = config["design"]
+        self.techlib_path = "techlibs"      # FIXME: Make this changeble in config file.
 
         # Output of previous stage
         self.in_def, self.in_verilog, self.in_sdc = (None,)*3
@@ -55,16 +56,15 @@ class Stage(ABC):
 
         # Library/PDK
         self.lib_name = config["design"]["library"]
-        self.lib_dir = "{0}/libraries/{1}".format(self.rdf_path, self.lib_name)
-        self.liberty = "{0}/libraries/{1}/{1}.lib" \
-                       .format(self.rdf_path, config["design"]["library"])
-        self.lef = "{0}/libraries/{1}/{1}.lef" \
-                       .format(self.rdf_path, config["design"]["library"])
-        self.tracks = "{0}/libraries/{1}/tracks.info" \
-                       .format(self.rdf_path, config["design"]["library"])
-
-        lib_config_yml = "{0}/libraries/{1}/{1}.yml" \
-                         .format(self.rdf_path, self.lib_name)
+        self.lib_dir = "{0}/{1}/{2}".format(self.rdf_path, self.techlib_path, self.lib_name)
+        self.liberty = "{0}/{1}/{2}/{2}.lib" \
+                       .format(self.rdf_path, self.techlib_path, self.lib_name)
+        self.lef = "{0}/{1}/{2}/{2}.lef" \
+                       .format(self.rdf_path, self.techlib_path, self.lib_name)
+        self.tracks = "{0}/{1}/{2}/tracks.info" \
+                       .format(self.rdf_path, self.techlib_path, self.lib_name)
+        lib_config_yml = "{0}/{1}/{2}/{2}.yml" \
+                         .format(self.rdf_path, self.techlib_path, self.lib_name)
 
         self.lib_config = None
         with open(lib_config_yml) as f:
@@ -81,3 +81,4 @@ class Stage(ABC):
     @abstractmethod
     def write_run_scripts(self):
         pass
+

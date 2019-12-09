@@ -2,7 +2,7 @@
     File name      : rdf.py
     Author         : Jinwook Jung
     Created on     : Thu 25 Jul 2019 11:33:57 PM EDT
-    Last modified  : 2019-10-30 17:10:40
+    Last modified  : 2019-12-09 14:53:45
     Description    : 
 '''
 
@@ -12,6 +12,7 @@ from datetime import datetime
 from uuid import uuid4
 from shutil import copyfile
 import importlib
+
 
 class RDF(object):
     def __init__(self, config_yml, config, job_dir):
@@ -92,7 +93,7 @@ class RDF(object):
             if stage_name not in \
                     ("synth", "floorplan", "global_place", "detail_place", \
                      "cts", "global_route", "detail_route"):
-                print("(W) Not implemented yet.. skip")
+                print("(E) Wrong stage name.. skip")
                 continue
 
             runpy = "{0}/{1}/{2}/{3}/rdf_{3}".format(rdf_dir, "bin", stage_name, tool)
@@ -149,5 +150,4 @@ if __name__ == '__main__':
         rdf.write_run_scripts()
     else:
         rdf.run()
-
 

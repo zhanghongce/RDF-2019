@@ -1,0 +1,102 @@
+[08/03 23:55:07      0s] 
+[08/03 23:55:07      0s] Cadence Innovus(TM) Implementation System.
+[08/03 23:55:07      0s] Copyright 2018 Cadence Design Systems, Inc. All rights reserved worldwide.
+[08/03 23:55:07      0s] 
+[08/03 23:55:07      0s] Version:	v18.12-s106_1, built Tue Dec 11 14:18:32 PST 2018
+[08/03 23:55:07      0s] Options:	
+[08/03 23:55:07      0s] Date:		Sat Aug  3 23:55:07 2019
+[08/03 23:55:07      0s] Host:		gridl138.pok.ibm.com (x86_64 w/Linux 2.6.32-696.28.1.el6.x86_64) (6cores*24cpus*Intel(R) Xeon(R) CPU X5690 @ 3.47GHz 12288KB)
+[08/03 23:55:07      0s] OS:		Red Hat Enterprise Linux Workstation release 6.4 (Santiago)
+[08/03 23:55:07      0s] 
+[08/03 23:55:07      0s] License:
+[08/03 23:55:07      0s] 		invs	Innovus Implementation System	18.1	checkout succeeded
+[08/03 23:55:07      0s] 		8 CPU jobs allowed with the current license(s). Use setMultiCpuUsage to set your required CPU count.
+[08/03 23:55:31     16s] @(#)CDS: Innovus v18.12-s106_1 (64bit) 12/11/2018 14:18 (Linux 2.6.18-194.el5)
+[08/03 23:55:31     16s] @(#)CDS: NanoRoute 18.12-s106_1 NR181210-1607/18_12-UB (database version 2.30, 441.7.1) {superthreading v1.47}
+[08/03 23:55:31     16s] @(#)CDS: AAE 18.12-s039 (64bit) 12/11/2018 (Linux 2.6.18-194.el5)
+[08/03 23:55:31     16s] @(#)CDS: CTE 18.12-s037_1 () Dec  3 2018 09:27:36 ( )
+[08/03 23:55:31     16s] @(#)CDS: SYNTECH 18.12-s015_1 () Nov 30 2018 19:16:11 ( )
+[08/03 23:55:31     16s] @(#)CDS: CPE v18.12-s099
+[08/03 23:55:31     16s] @(#)CDS: IQuantus/TQuantus 18.1.2-s710 (64bit) Fri Sep 21 18:13:54 PDT 2018 (Linux 2.6.18-194.el5)
+[08/03 23:55:31     16s] @(#)CDS: OA 22.50-p092 Tue Jul 17 11:13:18 2018
+[08/03 23:55:31     16s] @(#)CDS: SGN 10.10-p124 (19-Aug-2014) (64 bit executable)
+[08/03 23:55:31     16s] @(#)CDS: RCDB 11.14
+[08/03 23:55:31     16s] Create and set the environment variable TMPDIR to /tmp/innovus_temp_19716_gridl138.pok.ibm.com_jungj_Akdk16.
+
+[08/03 23:55:31     16s] The soft stacksize limit is either up to the hard limit or larger than 0.2%RAM. No change is needed.
+[08/03 23:55:33     17s] 
+[08/03 23:55:33     17s] **INFO:  MMMC transition support version v31-84 
+[08/03 23:55:33     17s] 
+[08/03 23:55:33     17s] <CMD> set_global _enable_mmmc_by_default_flow      $CTE::mmmc_default
+[08/03 23:55:33     17s] <CMD> suppressMessage ENCEXT-2799
+[08/03 23:55:33     17s] <CMD> getVersion
+[08/03 23:55:33     17s] <CMD> win
+[08/03 23:55:37     17s] <CMD> loadLefFile nctu.lef
+[08/03 23:55:37     17s] 
+[08/03 23:55:37     17s] Loading LEF file nctu.lef ...
+[08/03 23:55:37     17s] Set DBUPerIGU to M1 pitch 576.
+[08/03 23:55:37     17s] 
+##  Check design process and node:  ##
+##  Both design process and tech node are not set.
+
+[08/03 23:55:37     17s] **WARN: (IMPLF-45):	Macro 'AND2x11_ASAP7_75t_SL' has no SITE statement and it is a class
+[08/03 23:55:37     17s] CORE macro that requires a SITE statement. The SITE coreSite is
+[08/03 23:55:37     17s] chosen because it is a core site with height 1.0800 that matches the macro
+[08/03 23:55:37     17s] SIZE height.
+[08/03 23:55:37     17s] **WARN: (IMPLF-45):	Macro 'AND2x13_ASAP7_75t_SL' has no SITE statement and it is a class
+[08/03 23:55:37     17s] CORE macro that requires a SITE statement. The SITE coreSite is
+[08/03 23:55:37     17s] chosen because it is a core site with height 1.0800 that matches the macro
+[08/03 23:55:37     17s] SIZE height.
+[08/03 23:55:37     17s] **WARN: (IMPLF-45):	Macro 'AND2x14_ASAP7_75t_SL' has no SITE statement and it is a class
+[08/03 23:55:37     17s] CORE macro that requires a SITE statement. The SITE coreSite is
+[08/03 23:55:37     17s] chosen because it is a core site with height 1.0800 that matches the macro
+[08/03 23:55:37     17s] SIZE height.
+[08/03 23:55:37     17s] **WARN: (IMPLF-45):	Macro 'AND2x3_ASAP7_75t_SL' has no SITE statement and it is a class
+[08/03 23:55:37     17s] CORE macro that requires a SITE statement. The SITE coreSite is
+[08/03 23:55:37     17s] chosen because it is a core site with height 1.0800 that matches the macro
+[08/03 23:55:37     17s] SIZE height.
+[08/03 23:55:37     17s] **WARN: (IMPLF-45):	Macro 'AND2x4_ASAP7_75t_SL' has no SITE statement and it is a class
+[08/03 23:55:37     17s] CORE macro that requires a SITE statement. The SITE coreSite is
+[08/03 23:55:37     17s] chosen because it is a core site with height 1.0800 that matches the macro
+[08/03 23:55:37     17s] SIZE height.
+[08/03 23:55:37     17s] **WARN: (IMPLF-45):	Macro 'AND2x6_ASAP7_75t_SL' has no SITE statement and it is a class
+[08/03 23:55:37     17s] CORE macro that requires a SITE statement. The SITE coreSite is
+[08/03 23:55:37     17s] chosen because it is a core site with height 1.0800 that matches the macro
+[08/03 23:55:37     17s] SIZE height.
+[08/03 23:55:37     17s] **WARN: (IMPLF-45):	Macro 'AND2x7_ASAP7_75t_SL' has no SITE statement and it is a class
+[08/03 23:55:37     17s] CORE macro that requires a SITE statement. The SITE coreSite is
+[08/03 23:55:37     17s] chosen because it is a core site with height 1.0800 that matches the macro
+[08/03 23:55:37     17s] SIZE height.
+[08/03 23:55:37     17s] **WARN: (IMPLF-45):	Macro 'AND2x9_ASAP7_75t_SL' has no SITE statement and it is a class
+[08/03 23:55:37     17s] CORE macro that requires a SITE statement. The SITE coreSite is
+[08/03 23:55:37     17s] chosen because it is a core site with height 1.0800 that matches the macro
+[08/03 23:55:37     17s] SIZE height.
+[08/03 23:55:37     17s] **WARN: (IMPLF-45):	Macro 'AO221x1_ASAP7_75t_SL' has no SITE statement and it is a class
+[08/03 23:55:37     17s] CORE macro that requires a SITE statement. The SITE coreSite is
+[08/03 23:55:37     17s] chosen because it is a core site with height 1.0800 that matches the macro
+[08/03 23:55:37     17s] SIZE height.
+[08/03 23:55:37     17s] **WARN: (IMPLF-45):	Macro 'AO222x2_ASAP7_75t_SL' has no SITE statement and it is a class
+[08/03 23:55:37     17s] CORE macro that requires a SITE statement. The SITE coreSite is
+[08/03 23:55:37     17s] chosen because it is a core site with height 1.0800 that matches the macro
+[08/03 23:55:37     17s] SIZE height.
+[08/03 23:55:37     17s] **WARN: (IMPLF-45):	Macro 'AO332x1_ASAP7_75t_SL' has no SITE statement and it is a class
+[08/03 23:55:37     17s] CORE macro that requires a SITE statement. The SITE coreSite is
+[08/03 23:55:37     17s] chosen because it is a core site with height 1.0800 that matches the macro
+[08/03 23:55:37     17s] SIZE height.
+[08/03 23:55:37     17s] WARNING (LEFPARS-2065): Either PATH, RECT or POLYGON statement is a required in MACRO/PIN/PORT. See file nctu.lef at line 1300.
+[08/03 23:55:37     17s] **ERROR: (IMPLF-53):	The layer 'M0' referenced in pin 'Y' in macro 'AOI21x1_ASAP7_75t_SL' is not found in the database. A layer must be defined in the LEF technology LAYER section before it can be referenced from a macro. Review the LEF files specified in the init_lef_file variable to see if the layer does not exist or is specified after the one that defines the macro.
+Type 'man IMPLF-53' for more detail.
+[08/03 23:55:37     17s] **ERROR: (IMPLF-3):	Error found when processing LEF file 'nctu.lef'. The subsequent file content is ignored. Refer to error messages above for details. Fix the errors, and restart 'Innovus' again.
+Type 'man IMPLF-3' for more detail.
+[08/03 23:55:37     17s] 
+[08/04 00:02:48     43s] 
+[08/04 00:02:48     43s] *** Memory Usage v#1 (Current mem = 531.215M, initial mem = 227.383M) ***
+[08/04 00:02:48     44s] 
+[08/04 00:02:48     44s] *** Summary of all messages that are not suppressed in this session:
+[08/04 00:02:48     44s] Severity  ID               Count  Summary                                  
+[08/04 00:02:48     44s] ERROR     IMPLF-3              1  Error found when processing LEF file '%s...
+[08/04 00:02:48     44s] WARNING   IMPLF-45            11  Macro '%s' has no SITE statement and it ...
+[08/04 00:02:48     44s] ERROR     IMPLF-53             1  The layer '%s' referenced %s is not foun...
+[08/04 00:02:48     44s] *** Message Summary: 11 warning(s), 2 error(s)
+[08/04 00:02:48     44s] 
+[08/04 00:02:48     44s] --- Ending "Innovus" (totcpu=0:00:44.0, real=0:07:41, mem=531.2M) ---

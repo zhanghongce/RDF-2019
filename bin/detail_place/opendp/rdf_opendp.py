@@ -38,14 +38,18 @@ class OpenDPRunner(Stage):
         self.lef_mod = "{}/merged_padded_spacing.lef".format(self.lib_dir)
 
     def write_run_scripts(self):
-        cmd = "{}/bin/detail_place/opendp/opendp".format(self.rdf_path)
-        #cmd += " -lef {}".format(self.lef)
-        cmd += " -lef {}".format(self.lef_mod)
-        cmd += " -def {}".format(self.in_def)
-        cmd += " -cpu 4"
-        cmd += " -output_def {}/out/{}.def".format(self.job_dir, self.design_name)
-
         with open("{}/run.sh".format(self.job_dir), 'w') as f:
+            cmd = "{}/bin/detail_place/opendp/opendp".format(self.rdf_path)
+            #cmd += " -lef {}".format(self.lef)
+            cmd += " -lef {}".format(self.lef_mod)
+            cmd += " -def {}".format(self.in_def)
+            cmd += " -cpu 4"
+            cmd += " -output_def {}/out/{}.def".format(self.job_dir, self.design_name)
+            f.write("{}\n".format(cmd))
+
+            # Copy previous verilog file
+            cmd = "ln -s {0}/{1}.v {2}/out/{1}.v" \
+                  .format(self.prev_out_dir, self.design_name, self.job_dir)
             f.write("{}\n".format(cmd))
 
     def run(self):

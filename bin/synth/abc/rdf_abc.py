@@ -2,7 +2,7 @@
     File name      : abc.py
     Author         : Jinwook Jung
     Created on     : Fri 26 Jul 2019 12:08:12 AM EDT
-    Last modified  : 2019-08-08 21:31:22
+    Last modified  : 2019-12-09 15:04:12
     Description    :
 '''
 
@@ -15,7 +15,7 @@ sys.path.insert(0, '../../../src/stage.py')
 from stage import *
 
 
-def run(config, job_dir, prev_out_dir, user_parms):
+def run(config, job_dir, prev_out_dir, user_parms, write_run_scripts=False):
     """ Run the point tool and store the outputs at the out directory."""
     print("-"*79)
     print("Running ABC...")
@@ -30,8 +30,10 @@ def run(config, job_dir, prev_out_dir, user_parms):
         return -1
 
     abc_runner = ABCRunner(config, job_dir, prev_out_dir, user_parms)
+    abc_runner.write_run_scripts()
 
-    abc_runner.run()
+    if not write_run_scripts:
+        abc_runner.run()
 
     print("Done.")
     print("")

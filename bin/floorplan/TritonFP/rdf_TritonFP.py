@@ -2,7 +2,7 @@
     File name      : run_TritonFP.py
     Author         : Jinwook Jung
     Created on     : Fri 26 Jul 2019 12:08:12 AM EDT
-    Last modified  : 2019-10-30 17:39:07
+    Last modified  : 2019-12-09 15:22:15
     Description    : 
 '''
 
@@ -35,6 +35,19 @@ class TritonFPRunner(Stage):
     def __init__(self, config, job_dir, prev_out_dir, user_parms):
         super().__init__(config, job_dir, prev_out_dir, user_parms)
 
+        # User parms
+        if user_parms is None or len(user_parms) == 0:
+            self.target_utilization = 25
+            self.aspect_ratio = 1
+
+        # FIXME
+        try:
+            self.target_utilization = user_parms["target_utilization"]
+            self.aspect_ratio = user_parms["aspect_ratio"]
+        except KeyError:
+            self.target_utilization = 25
+            self.aspect_ratio = 1
+
     def write_run_scripts(self):
         cmds = list()
 
@@ -46,7 +59,7 @@ class TritonFPRunner(Stage):
         cmd += " -top_module {}".format(self.design_name)
         cmd += " -units {}".format(self.lib_config["VERILOG2DEF_DBU"])
         cmd += " -site {}".format(self.lib_config["PLACE_SITE"])
-        cmd += " -utilization {}".format(self.config["design"]["target_utilization"])
+        cmd += " -utilization {}".format(self.target_utilization)
         cmd += " -tracks {}".format(self.tracks)
         cmd += " -core_space {}".format(self.lib_config["CORE_SPACE"])
         cmd += " -def {}/{}".format(self.job_dir, "init.def")
@@ -75,6 +88,11 @@ class TritonFPRunner(Stage):
         cmd += " -endcap {}".format("")
         cmd += " -rows"
         cmd += " -outdef {}".format("")
+        cmds.append(cmd)
+
+        # Copy previous verilog file
+        cmd = "ln -s {0}/{1}.v {2}/out/{1}.v" \
+              .format(self.prev_out_dir, self.design_name, self.job_dir)
         cmds.append(cmd)
 
         with open("{}/run.sh".format(self.job_dir), 'w') as f:
@@ -109,7 +127,7 @@ class TritonFPRunner(Stage):
         cmd += " -top_module {}".format(self.design_name)
         cmd += " -units {}".format(self.lib_config["VERILOG2DEF_DBU"])
         cmd += " -site {}".format(self.lib_config["PLACE_SITE"])
-        cmd += " -utilization {}".format(self.config["design"]["target_utilization"])
+        cmd += " -utilization {}".format(self.target_utilization)
         cmd += " -tracks {}".format(self.tracks)
         cmd += " -core_space {}".format(self.lib_config["CORE_SPACE"])
         cmd += " -def {}/{}".format(self.job_dir, "init.def")

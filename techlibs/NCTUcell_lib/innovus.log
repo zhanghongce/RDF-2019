@@ -1,0 +1,44 @@
+
+Cadence Innovus(TM) Implementation System.
+Copyright 2018 Cadence Design Systems, Inc. All rights reserved worldwide.
+
+Version:	v18.12-s106_1, built Tue Dec 11 14:18:32 PST 2018
+Options:	
+Date:		Sat Aug  3 21:26:29 2019
+Host:		gridl138.pok.ibm.com (x86_64 w/Linux 2.6.32-696.28.1.el6.x86_64) (6cores*24cpus*Intel(R) Xeon(R) CPU X5690 @ 3.47GHz 12288KB)
+OS:		Red Hat Enterprise Linux Workstation release 6.4 (Santiago)
+
+License:
+		invs	Innovus Implementation System	18.1	checkout succeeded
+		8 CPU jobs allowed with the current license(s). Use setMultiCpuUsage to set your required CPU count.
+The soft stacksize limit is either up to the hard limit or larger than 0.2%RAM. No change is needed.
+
+**INFO:  MMMC transition support version v31-84 
+
+<CMD> set_global _enable_mmmc_by_default_flow      $CTE::mmmc_default
+<CMD> suppressMessage ENCEXT-2799
+<CMD> getVersion
+<CMD> win
+<CMD> loadLefFile NCTU_75T.lef
+
+Loading LEF file NCTU_75T.lef ...
+
+##  Check design process and node:  ##
+##  Both design process and tech node are not set.
+
+**ERROR: (IMPLF-53):	The layer 'metal1' referenced in pin 'Y' in macro 'AND2x11_ASAP7_75t_SL' is not found in the database. A layer must be defined in the LEF technology LAYER section before it can be referenced from a macro. Review the LEF files specified in the init_lef_file variable to see if the layer does not exist or is specified after the one that defines the macro.
+Type 'man IMPLF-53' for more detail.
+**ERROR: (IMPLF-3):	Error found when processing LEF file 'NCTU_75T.lef'. The subsequent file content is ignored. Refer to error messages above for details. Fix the errors, and restart 'Innovus' again.
+Type 'man IMPLF-3' for more detail.
+**ERROR: (IMPLF-26):	No technology information is defined in the first LEF file.
+Please rearrange the LEF file order and make sure the technology LEF file is the
+first one, exit and restart Innovus.
+**ERROR: (IMPLF-26):	No technology information is defined in the first LEF file.
+Please rearrange the LEF file order and make sure the technology LEF file is the
+first one, exit and restart Innovus.
+
+
+*** Memory Usage v#1 (Current mem = 539.207M, initial mem = 227.383M) ***
+*** Message Summary: 0 warning(s), 4 error(s)
+
+--- Ending "Innovus" (totcpu=0:00:18.7, real=0:00:56.0, mem=539.2M) ---
