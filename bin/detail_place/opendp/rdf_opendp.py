@@ -14,14 +14,14 @@ sys.path.insert(0, '../../../src/stage.py')
 from stage import *
 
 
-def run(config, job_dir, prev_out_dir, user_parms, write_run_scripts=False):
+def run(config, stage_dir, prev_out_dir, user_parms, write_run_scripts=False):
     print("-"*79)
     print("Running OpenDP...")
     print("-"*79)
-    print("Job directory: {}".format(job_dir))
+    print("Job directory: {}".format(stage_dir))
     print("Previous stage outputs: {}".format(prev_out_dir))
 
-    opendp = OpenDPRunner(config, job_dir, prev_out_dir, user_parms)
+    opendp = OpenDPRunner(config, stage_dir, prev_out_dir, user_parms)
     opendp.write_run_scripts()
 
     if not write_run_scripts:
@@ -32,47 +32,31 @@ def run(config, job_dir, prev_out_dir, user_parms, write_run_scripts=False):
 
 
 class OpenDPRunner(Stage):
-    def __init__(self, config, job_dir, prev_out_dir, user_parms):
-        super().__init__(config, job_dir, prev_out_dir, user_parms)
+    def __init__(self, config, stage_dir, prev_out_dir, user_parms):
+        super().__init__(config, stage_dir, prev_out_dir, user_parms)
 
         self.lef_mod = "{}/merged_padded_spacing.lef".format(self.lib_dir)
 
     def write_run_scripts(self):
-        with open("{}/run.sh".format(self.job_dir), 'w') as f:
-            cmd = "{}/bin/detail_place/opendp/opendp".format(self.rdf_path)
-            #cmd += " -lef {}".format(self.lef)
-            cmd += " -lef {}".format(self.lef_mod)
-            cmd += " -def {}".format(self.in_def)
-            cmd += " -cpu 4"
-            cmd += " -output_def {}/out/{}.def".format(self.job_dir, self.design_name)
-            f.write("{}\n".format(cmd))
+        cmds = list()
 
-            # Copy previous verilog file
-            cmd = "ln -s {0}/{1}.v {2}/out/{1}.v" \
-                  .format(self.prev_out_dir, self.design_name, self.job_dir)
-            f.write("{}\n".format(cmd))
-
-    def run(self):
-        print("Hello OpenDP...")
-
-        cmd = "{}/bin/detail_place/opendp/opendp".format(self.rdf_path)
+        cmd = "${RDF_TOOL_BIN_PATH}/detail_place/opendp/opendp"
         #cmd += " -lef {}".format(self.lef)
         cmd += " -lef {}".format(self.lef_mod)
         cmd += " -def {}".format(self.in_def)
         cmd += " -cpu 4"
-        cmd += " -output_def {}/out/{}.def".format(self.job_dir, self.design_name)
-
-        print(cmd)
-
-        with open("{}/out/{}.log".format(self.job_dir, self.design_name), 'a') as f:
-            f.write("\n")
-            f.write("# Command: {}\n".format(cmd))
-            f.write("\n")
-            run_shell_cmd(cmd, f)
+        cmd += " -output_def {}/out/{}.def".format(self.stage_dir, self.design_name)
+        cmds.append(cmd)
 
         # Copy previous verilog file
         cmd = "ln -s {0}/{1}.v {2}/out/{1}.v" \
-              .format(self.prev_out_dir, self.design_name, self.job_dir)
+              .format(self.prev_out_dir, self.design_name, self.stage_dir)
+        cmds.append(cmd)
 
-        run_shell_cmd(cmd)
+        self.create_run_script_template()
+        with open("{}/run.sh".format(self.stage_dir), 'a') as f:
+            [f.write("{}\n".format(_)) for _ in cmds]
+
+    def run(self):
+        pass
 

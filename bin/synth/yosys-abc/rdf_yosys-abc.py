@@ -2,7 +2,7 @@
     File name      : rdf_yosys-abc.py
     Author         : Jinwook Jung
     Created on     : Sun 28 Jul 2019 12:08:12 AM EDT
-    Last modified  : 2019-10-30 17:37:36
+    Last modified  : 2020-01-06 15:17:36
     Description    :
 '''
 
@@ -13,21 +13,18 @@ sys.path.insert(0, '../../../src/stage.py')
 from stage import *
 
 
-def run(config, job_dir, prev_out_dir, user_parms, write_run_scripts=False):
-    """ Run the point tool and store the outputs at the out directory."""
+def run(config, stage_dir, prev_out_dir, user_parms, write_run_scripts=False):
     print("-"*79)
     print("Running Yosys-ABC...")
     print("-"*79)
-    print("Job directory: {}".format(job_dir))
+    print("Job directory: {}".format(stage_dir))
     print("Previous stage outputs: {}".format(prev_out_dir))
     print("")
 
-    yosys_runner = YosysRunner(config, job_dir, prev_out_dir, user_parms)
+    yosys_runner = YosysRunner(config, stage_dir, prev_out_dir, user_parms)
+    yosys_runner.write_run_scripts()
 
-    if write_run_scripts:
-        yosys_runner.write_run_scripts()
-    else:
-        yosys_runner.write_run_scripts()
+    if not write_run_scripts:
         yosys_runner.run()
 
     print("Done.")
@@ -35,8 +32,8 @@ def run(config, job_dir, prev_out_dir, user_parms, write_run_scripts=False):
 
 
 class YosysRunner(Stage):
-    def __init__(self, config, job_dir, prev_out_dir, user_parms):
-        super().__init__(config, job_dir, prev_out_dir, user_parms)
+    def __init__(self, config, stage_dir, prev_out_dir, user_parms):
+        super().__init__(config, stage_dir, prev_out_dir, user_parms)
 
         # Optimization parms
         if user_parms is None or len(user_parms) == 0:
@@ -55,33 +52,22 @@ class YosysRunner(Stage):
             self.max_fanout = 8
 
     def write_run_scripts(self):
-        self._write_abc_script_txt()
+        self.write_abc_script_txt()
+        self.write_synth_tcl()
 
-        self._write_synth_tcl()
+        self.create_run_script_template()
+        yosys_bin = "{}/synth/yosys-abc/yosys".format("${RDF_TOOL_BIN_PATH}")
 
-        yosys_bin = "{}/bin/synth/yosys-abc/yosys".format(self.rdf_path)
-        cmd = "cd {}; {} -c synth.tcl".format(self.job_dir, yosys_bin)
-
-        with open("{}/run.sh".format(self.job_dir), 'w') as f:
-            f.write("cd {}\n".format(self.job_dir))
+        # Append tool run commands
+        with open("{}/run.sh".format(self.stage_dir), 'a') as f:
+            f.write("cd ${RDF_STAGE_DIR}\n")
             f.write("{} -c synth.tcl".format(yosys_bin))
 
     def run(self):
-        self._write_abc_script_txt()
+        pass
 
-        self._write_synth_tcl()
-
-        yosys_bin = "{}/bin/synth/yosys-abc/yosys".format(self.rdf_path)
-        cmd = "cd {}; {} -c synth.tcl".format(self.job_dir, yosys_bin)
-
-        with open("{}/out/{}.log".format(self.job_dir, self.design_name), 'w') as f:
-            f.write("\n")
-            f.write("# Command: {}\n".format(cmd))
-            f.write("\n")
-            run_shell_cmd(cmd, f)
-
-    def _write_abc_script_txt(self):
-        with open("{}/abc_script.txt".format(self.job_dir), 'w') as f:
+    def write_abc_script_txt(self):
+        with open("{}/abc_script.txt".format(self.stage_dir), 'w') as f:
             f.write("map\n")
             f.write("\n")
             f.write("source {}/bin/synth/yosys-abc/abc.rc\n".format(self.rdf_path))
@@ -115,8 +101,8 @@ class YosysRunner(Stage):
             f.write("echo \"***print_fanio\"\n")
             f.write("print_fanio\n")
 
-    def _write_synth_tcl(self):
-        with open("{}/synth.tcl".format(self.job_dir), 'w') as f:
+    def write_synth_tcl(self):
+        with open("{}/synth.tcl".format(self.stage_dir), 'w') as f:
             f.write("yosys -import\n\n")
 
             f.write("# Read verilog files...\n")

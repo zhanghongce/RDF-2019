@@ -2,7 +2,7 @@
     File name      : stage.py
     Author         : Jinwook Jung
     Created on     : Thu 25 Jul 2019 11:57:16 PM EDT
-    Last modified  : 2019-08-08 21:33:31
+    Last modified  : 2020-01-06 13:27:13
     Description    : 
 '''
 
@@ -26,11 +26,11 @@ def run_shell_cmd(cmd, f=None):
 
 
 class Stage(ABC):
-    def __init__(self, config, job_dir, prev_out_dir, user_parms, write_run_scripts=False):
+    def __init__(self, config, stage_dir, prev_out_dir, user_parms, write_run_scripts=False):
         ''' Initialize the instance and populate the necessary/useful
         variables. '''
         self.config = config
-        self.job_dir = job_dir
+        self.stage_dir = stage_dir
         self.prev_out_dir = prev_out_dir
 
         self.rdf_path = config["rdf_path"]
@@ -46,12 +46,9 @@ class Stage(ABC):
             self.in_sdc = "{}/{}.sdc".format(prev_out_dir, self.design_name)
         else:
             # If this is the first stage, just use the original design file
-            # FIXME
             self.in_verilog = None
             self.in_def = None
             self.in_sdc = "{}/{}.sdc".format(self.rdf_path, self.design_name)
-
-            print(self.design["verilog"])
             self.design_verilogs = ["{}/{}".format(self.rdf_path, _) for _ in self.design["verilog"]]
 
         # Library/PDK
@@ -73,12 +70,18 @@ class Stage(ABC):
         # (TODO) User parameters
         self.user_parms = user_parms    # List of parameters (key/value pairs)
 
-
-    @abstractmethod
-    def run(self):
-        pass
+    def create_run_script_template(self):
+        with open("{}/run.sh".format(self.stage_dir), 'w') as f:
+            f.write("#!/bin/bash\n\n")
+            f.write("export RDF_PATH=\"{}\"\n".format(self.rdf_path))
+            f.write("export RDF_STAGE_DIR=\"{}\"\n".format(self.stage_dir))
+            f.write("export RDF_TOOL_BIN_PATH=\"${RDF_PATH}/bin\"\n")
+            f.write("\n")
 
     @abstractmethod
     def write_run_scripts(self):
         pass
 
+    @abstractmethod
+    def run(self):
+        pass

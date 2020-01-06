@@ -2,7 +2,7 @@
     File name      : rdf_RePlAce.py
     Author         : Jinwook Jung
     Created on     : Tue 30 Jul 2019 10:31:18 PM EDT
-    Last modified  : 2019-10-30 17:37:33
+    Last modified  : 2020-01-06 15:22:58
     Description    : 
 '''
 
@@ -14,14 +14,14 @@ sys.path.insert(0, '../../../src/stage.py')
 from stage import *
 
 
-def run(config, job_dir, prev_out_dir, user_parms, write_run_scripts=False):
+def run(config, stage_dir, prev_out_dir, user_parms, write_run_scripts=False):
     print("-"*79)
     print("Running RePlAce...")
     print("-"*79)
-    print("Job directory: {}".format(job_dir))
+    print("Job directory: {}".format(stage_dir))
     print("Previous stage outputs: {}".format(prev_out_dir))
 
-    replace = RePlAceRunner(config, job_dir, prev_out_dir, user_parms)
+    replace = RePlAceRunner(config, stage_dir, prev_out_dir, user_parms)
     replace.write_run_scripts()
 
     if not write_run_scripts:
@@ -32,70 +32,48 @@ def run(config, job_dir, prev_out_dir, user_parms, write_run_scripts=False):
 
 
 class RePlAceRunner(Stage):
-    def __init__(self, config, job_dir, prev_out_dir, user_parms):
-        super().__init__(config, job_dir, prev_out_dir, user_parms)
+    def __init__(self, config, stage_dir, prev_out_dir, user_parms):
+        super().__init__(config, stage_dir, prev_out_dir, user_parms)
 
         self.lef_mod = "{}/merged_padded_spacing.lef".format(self.lib_dir)
 
     def write_run_scripts(self):
-        with open("{}/run.sh".format(self.job_dir), 'w') as f:
-            cmd = "{}/bin/global_place/RePlAce/RePlAce".format(self.rdf_path)
-            cmd += " -bmflag etc"
-            # cmd += " -lef {}".format(self.lef)
-            cmd += " -lef {}".format(self.lef_mod)
-            cmd += " -def {}".format(self.in_def)
-            cmd += " -onlyGP"
-            cmd += " -output {}".format(self.job_dir)
+        cmds = list()
 
-            f.write("{}\n".format(cmd))
-
-            cmd = "ln -s {0}/etc/{1}/experiment000/{1}_final.def {0}/out/{1}.def" \
-                  .format(self.job_dir, self.design_name)
-
-            f.write("{}\n".format(cmd))
-
-            # Copy previous verilog file
-            cmd = "ln -s {0}/{1}.v {2}/out/{1}.v" \
-                  .format(self.prev_out_dir, self.design_name, self.job_dir)
-
-            f.write("{}\n".format(cmd))
-
-
-
-    def run(self):
-        print("Hello RePlAce...")
-
-        cmd = "{}/bin/global_place/RePlAce/RePlAce".format(self.rdf_path)
+        cmd = "${RDF_TOOL_BIN_PATH}/global_place/RePlAce/RePlAce"
         cmd += " -bmflag etc"
         # cmd += " -lef {}".format(self.lef)
         cmd += " -lef {}".format(self.lef_mod)
         cmd += " -def {}".format(self.in_def)
         cmd += " -onlyGP"
-        cmd += " -output {}".format(self.job_dir)
+        cmd += " -output {}".format(self.stage_dir)
+        cmds.append(cmd)
 
-        # FIXME: Check the existence of each user parm and its value range.
-        if "target_density" in self.user_parms.keys():
-            cmd += " -den {}".format(self.user_parms["target_density"])
+        cmd = "ln -s {0}/etc/{1}/experiment000/{1}_final.def {0}/out/{1}.def" \
+              .format(self.stage_dir, self.design_name)
+        cmds.append(cmd)
 
-        print(cmd)
+        # Copy previous verilog file
+        cmd = "ln -s {0}/{1}.v {2}/out/{1}.v" \
+              .format(self.prev_out_dir, self.design_name, self.stage_dir)
+        cmds.append(cmd)
 
-        with open("{}/out/{}.log".format(self.job_dir, self.design_name), 'a') as f:
-            f.write("\n")
-            f.write("# Command: {}\n".format(cmd))
-            f.write("\n")
-            run_shell_cmd(cmd, f)
+        self.create_run_script_template()
+        with open("{}/run.sh".format(self.stage_dir), 'a') as f:
+            [f.write("{}\n".format(_)) for _ in cmds]
 
-        self._copy_final_output()
+    def run(self):
+        pass
 
     def _copy_final_output(self):
         cmd = "ln -s {0}/etc/{1}/experiment000/{1}_final.def {0}/out/{1}.def" \
-              .format(self.job_dir, self.design_name)
+              .format(self.stage_dir, self.design_name)
 
         run_shell_cmd(cmd)
 
         # Copy previous verilog file
         cmd = "ln -s {0}/{1}.v {2}/out/{1}.v" \
-              .format(self.prev_out_dir, self.design_name, self.job_dir)
+              .format(self.prev_out_dir, self.design_name, self.stage_dir)
 
         run_shell_cmd(cmd)
 

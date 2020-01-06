@@ -2,7 +2,7 @@
     File name      : rdf_TritonRoute.py
     Author         : Jinwook Jung
     Created on     : Thu 08 Aug 2019 09:46:48 PM EDT
-    Last modified  : 2019-08-08 21:46:48
+    Last modified  : 2020-01-06 15:50:39
     Description    : 
 '''
 
@@ -14,14 +14,14 @@ sys.path.insert(0, '../../../src/stage.py')
 from stage import *
 
 
-def run(config, job_dir, prev_out_dir, user_parms, write_run_scripts=False):
+def run(config, stage_dir, prev_out_dir, user_parms, write_run_scripts=False):
     print("-"*79)
     print("Running TritonRoute...")
     print("-"*79)
-    print("Job directory: {}".format(job_dir))
+    print("Job directory: {}".format(stage_dir))
     print("Previous stage outputs: {}".format(prev_out_dir))
 
-    triton_route = TritonRouteRunner(config, job_dir, prev_out_dir, user_parms)
+    triton_route = TritonRouteRunner(config, stage_dir, prev_out_dir, user_parms)
     triton_route.write_run_scripts()
 
     if not write_run_scripts:
@@ -32,8 +32,8 @@ def run(config, job_dir, prev_out_dir, user_parms, write_run_scripts=False):
 
 
 class TritonRouteRunner(Stage):
-    def __init__(self, config, job_dir, prev_out_dir, user_parms):
-        super().__init__(config, job_dir, prev_out_dir, user_parms)
+    def __init__(self, config, stage_dir, prev_out_dir, user_parms):
+        super().__init__(config, stage_dir, prev_out_dir, user_parms)
 
         self.lef_mod = "{}/merged_padded_spacing.lef".format(self.lib_dir)
         self.in_guide = "{}/{}.guide".format(self.prev_out_dir, self.design_name)
@@ -41,12 +41,15 @@ class TritonRouteRunner(Stage):
     def write_run_scripts(self):
         self._write_parm_file()
 
-        with open("{}/run.sh".format(self.job_dir), 'w') as f:
-            cmd = "cd {};".format(self.job_dir)
-            cmd += "{}/bin/detail_route/TritonRoute/TritonRoute".format(self.rdf_path)
-            cmd += " triton_route.parm"
+        cmds = list()
+        cmd = "cd {};".format(self.stage_dir)
+        cmd += "${RDF_TOOL_BIN_PATH}/detail_route/TritonRoute/TritonRoute"
+        cmd += " triton_route.parm"
+        cmds.append(cmd)
 
-            f.write("{}\n".format(cmd))
+        self.create_run_script_template()
+        with open("{}/run.sh".format(self.stage_dir), 'a') as f:
+            [f.write("{}\n".format(_)) for _ in cmds]
 
     def run(self):
         print("Hello TritonRoute...")
@@ -58,7 +61,7 @@ class TritonRouteRunner(Stage):
         self._copy_final_output()
 
     def _write_parm_file(self):
-        with open("{}/triton_route.parm".format(self.job_dir), 'w') as f:
+        with open("{}/triton_route.parm".format(self.stage_dir), 'w') as f:
             f.write("lef:{}\n".format(self.lef_mod))
             f.write("def:{}\n".format(self.in_def))
             f.write("guide:{}\n".format(self.in_guide))
@@ -73,13 +76,13 @@ class TritonRouteRunner(Stage):
             f.write("timeout:36000\n")
 
     def _run_triton_route(self):
-        cmd = "cd {};".format(self.job_dir)
-        cmd += "{}/bin/detail_route/TritonRoute/TritonRoute".format(self.rdf_path)
+        cmd = "cd {};".format(self.stage_dir)
+        cmd += "${RDF_TOOL_BIN_PATH}/detail_route/TritonRoute/TritonRoute"
         cmd += " triton_route.parm"
 
         print(cmd)
 
-        with open("{}/out/{}.log".format(self.job_dir, self.design_name), 'a') as f:
+        with open("{}/out/{}.log".format(self.stage_dir, self.design_name), 'a') as f:
             f.write("\n")
             f.write("# Command: {}\n".format(cmd))
             f.write("\n")

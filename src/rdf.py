@@ -1,142 +1,128 @@
 '''
     File name      : rdf.py
-    Author         : Jinwook Jung
+    Author         : Jinwook Jung (jinwookjung@ibm.com)
     Created on     : Thu 25 Jul 2019 11:33:57 PM EDT
-    Last modified  : 2019-12-09 14:53:45
+    Last modified  : 2020-01-06 15:34:36
     Description    : 
 '''
 
-import subprocess, os, sys, random, yaml, time
+import subprocess, os, sys, random, yaml, time, importlib
 from os import path
 from datetime import datetime
 from uuid import uuid4
 from shutil import copyfile
-import importlib
 
 
 class RDF(object):
-    def __init__(self, config_yml, config, job_dir):
-        self.config_yml, self.config = config_yml, config
-        self.job_dir = job_dir
-        self.design_data = dict()
-        self.flow = None
+    ''' Main class of RDF.
+    '''
+    def __init__(self, config_yml):
+        self.config_yml = config_yml
+        self.config = None
+
+        self.design_config, self.flow_config = None, None
 
     def process_config(self):
-        print("Processing config file...")
-        print("")
+        ''' Process user config file and populate necessary values.
+        '''
 
-        for k,v in config.items():
-            if k == "design":
-                design_data = v
-                print("Design: {}".format(design_data["name"]))
+        print("(I) Process config file...\n")
 
+        with open(config_yml) as f:
+            self.config = yaml.safe_load(f)
+
+        for k,v in self.config.items():
+            if k == 'rdf_path':
+                # FIXME: Get the RDF installation directory from user config file.
+                pass
+            elif k == 'job_dir':
+                # FIXME: Need to get the job directory form user config file.
+                pass
+            elif k == "design":
+                print("Design: {}".format(v["name"]))
+                self.design_config = v
             elif k == "flow":
                 self.flow = v
-
             else:
-                print("(I) SKIP: {}={}".format(k,v))
+                print("(W) Invalid: {}={}".format(k,v))
+
+            # FIXME
+            cur_dir = os.getcwd()
+            src_dir = path.dirname(path.realpath(__file__))
+
+            self.config["rdf_path"] = path.dirname(src_dir)
+            self.config["job_dir"]  = "{}/{}".format(cur_dir, job_id)
 
     def write_run_scripts(self):
-        # Copy the current config file.
-        copyfile(self.config_yml, "{}/{}".format(self.job_dir, self.config_yml))
+        ''' Write run script for each stage.
+        '''
 
+        # Copy the current config file.
+        copyfile(self.config_yml, "{}/{}".format(self.config["job_dir"], self.config_yml))
         prev_out_dir = None
+
         for stage in self.flow:
-            stage_name = stage["stage"]
-            tool = stage["tool"]
+            stage_name, tool = stage["stage"], stage["tool"]
             user_parms = stage["user_parms"]
 
             print("Current stage: {}".format(stage_name))
-            print("Creating run directory:")
-            run_dir = "{}/{}".format(job_dir, stage_name)
-            out_dir = "{}/out".format(run_dir)
-            os.makedirs(run_dir)
-            os.makedirs(out_dir)
-
             if stage_name not in \
                     ("synth", "floorplan", "global_place", "detail_place", \
                      "cts", "global_route", "detail_route"):
-                print("(W) Not implemented yet.. skip")
+                print("(W) Not supported yet... skip")
                 continue
 
-            runpy = "{0}/{1}/{2}/{3}/rdf_{3}".format(rdf_dir, "bin", stage_name, tool)
-            print("Launching: {}.py".format(runpy))
+            print("Create run directory:")
+            stage_dir = "{}/{}".format(self.config["job_dir"], stage_name)
+            out_dir = "{}/out".format(stage_dir)
+            os.makedirs(stage_dir)
+            os.makedirs(out_dir)
 
-            # FIXME: Temporarily modify system path... this should be avoided?
+            runpy = "{0}/{1}/{2}/{3}/rdf_{3}".format(self.config["rdf_path"], "bin", stage_name, tool)
+            print("Run python script: {}.py".format(runpy))
+
+            # FIXME: Temporarily modify system path...
             sys.path.insert(0, path.dirname(runpy))
             module = importlib.import_module("rdf_{}".format(tool))
 
-            module.run(config, run_dir, prev_out_dir, user_parms, write_run_scripts=True)
+            module.run(self.config, stage_dir, prev_out_dir, user_parms, write_run_scripts=True)
             prev_out_dir = out_dir
 
             print("Done: {}.".format(stage_name))
             print("")
 
+        with open("{}/run.sh".format(self.config["job_dir"]), 'w') as f:
+            f.write("#!/bin/bash\n\n")
+            f.write("export RDF_JOB_DIR=\"{}\"\n".format(self.config["job_dir"]))
 
-    def run(self, write_run_scripts=False):
-        # Copy the current config file.
-        copyfile(self.config_yml, "{}/{}".format(self.job_dir, self.config_yml))
+            for stage in self.flow:
+                stage_name = stage["stage"]
+                print(stage_name)
+                if stage_name not in \
+                        ("synth", "floorplan", "global_place", "detail_place", \
+                         "cts", "global_route", "detail_route"):
+                    print("(W) Not supported yet... skip")
+                    continue
 
-        prev_out_dir = None
-        for stage in self.flow:
-            stage_name = stage["stage"]
-            tool = stage["tool"]
-            user_parms = stage["user_parms"]
-
-            print("Current stage: {}".format(stage_name))
-            print("Creating run directory:")
-            run_dir = "{}/{}".format(job_dir, stage_name)
-            out_dir = "{}/out".format(run_dir)
-            os.makedirs(run_dir)
-            os.makedirs(out_dir)
-
-            if stage_name not in \
-                    ("synth", "floorplan", "global_place", "detail_place", \
-                     "cts", "global_route", "detail_route"):
-                print("(E) Wrong stage name.. skip")
-                continue
-
-            runpy = "{0}/{1}/{2}/{3}/rdf_{3}".format(rdf_dir, "bin", stage_name, tool)
-            print("Launching: {}.py".format(runpy))
-
-            # FIXME: Temporarily modify system path... this should be avoided?
-            sys.path.insert(0, path.dirname(runpy))
-            module = importlib.import_module("rdf_{}".format(tool))
-
-            if write_run_scripts:
-                module.run(config, run_dir, prev_out_dir, user_parms, write_run_scripts=True)
-            else:
-                module.run(config, run_dir, prev_out_dir, user_parms)
-            prev_out_dir = out_dir
-
-            print("Done: {}.".format(stage_name))
-            print("")
+                f.write("cd ${{RDF_JOB_DIR}}/{}; bash run.sh\n".format(stage_name))
 
 
 if __name__ == '__main__':
     import argparse
     parser = argparse.ArgumentParser()
     parser.add_argument("--config", action="store", required=True)
-    parser.add_argument("--write-run-scripts", action="store_true")
+    parser.add_argument("--run", action="store_true")
     parser.add_argument("--test", action="store_true")
     args, _ = parser.parse_known_args()
 
     config_yml = args.config
-    with open(config_yml) as f:
-        config = yaml.safe_load(f)
-
-    cur_dir = os.getcwd()
-    src_dir = path.dirname(path.realpath(__file__))
-    rdf_dir = path.dirname(src_dir)
 
     if args.test:
         job_id = "rdf.yymmdd.HHMMSS"
     else:
         job_id = "rdf.{}".format(datetime.now().strftime('%y%m%d.%H%M%S'))
 
-    print("RDF Root Path: {}".format(rdf_dir))
     print("Job ID: {}".format(job_id))
-    job_dir = "{}/{}".format(cur_dir, job_id)
 
     # Create a job directory with the current job id
     if args.test:
@@ -144,10 +130,10 @@ if __name__ == '__main__':
         shutil.rmtree(job_id, ignore_errors=True)
     os.mkdir(job_id)
 
-    rdf = RDF(config_yml, config, job_dir)
+    rdf = RDF(config_yml)
     rdf.process_config()
-    if args.write_run_scripts:
-        rdf.write_run_scripts()
-    else:
+    rdf.write_run_scripts()
+
+    if args.run:
         rdf.run()
 
