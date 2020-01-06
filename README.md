@@ -41,7 +41,7 @@ Example RDF configuration file in YAML format:
 ---
 
 rdf_path: /path/to/your/rdf/installation/RDF-2019
-job_dir: /path/to/job/directory/not/implemented/yet
+job_dir: /path/to/job/directory
 
 design:
     name:        ac97_ctrl
