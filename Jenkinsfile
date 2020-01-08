@@ -4,7 +4,7 @@ pipeline {
         choice(
                 name: 'benchmark',
                 choices: ['i2c', 'tv80'],
-                description: "Choose benchmark circuit you want to try.'
+                description: 'Choose benchmark circuit you want to try.'
               )
     }
     stages {
