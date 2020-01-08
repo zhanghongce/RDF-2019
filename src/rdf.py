@@ -20,7 +20,13 @@ class RDF(object):
         self.config_yml = config_yml
         self.config = None
 
-        self.design_config, self.flow_config = None, None
+        self.flow = None
+
+        self.design_dir = None
+        self.design_config = None
+
+        self.lib_dir = None
+        self.lib_config = None
 
     def process_config(self):
         ''' Process user config file and populate necessary values.
@@ -34,24 +40,31 @@ class RDF(object):
         for k,v in self.config.items():
             if k == 'rdf_path':
                 # FIXME: Get the RDF installation directory from user config file.
-                pass
+                src_dir = path.dirname(path.realpath(__file__))
+                self.config["rdf_path"] = path.dirname(src_dir)
+
             elif k == 'job_dir':
                 # FIXME: Need to get the job directory form user config file.
-                pass
+                cur_dir = os.getcwd()
+                self.config["job_dir"]  = "{}/{}".format(cur_dir, job_id)
+
             elif k == "design":
-                print("Design: {}".format(v["name"]))
-                self.design_config = v
+                self.design_dir = "{}/{}".format(self.config["rdf_path"], v)
+                with open("{}/rdf_design.yml".format(self.design_dir)) as f:
+                    self.design_config = yaml.safe_load(f)
+                    print("Design: {}".format(self.design_config["name"]))
+
+            elif k == "library":
+                self.lib_dir = "{}/{}".format(self.config["rdf_path"], v)
+                self.lib_config = None
+                with open("{}/rdf_techlib.yml".format(self.lib_dir)) as f:
+                    self.lib_config = yaml.safe_load(f)
+
             elif k == "flow":
                 self.flow = v
+
             else:
                 print("(W) Invalid: {}={}".format(k,v))
-
-            # FIXME
-            cur_dir = os.getcwd()
-            src_dir = path.dirname(path.realpath(__file__))
-
-            self.config["rdf_path"] = path.dirname(src_dir)
-            self.config["job_dir"]  = "{}/{}".format(cur_dir, job_id)
 
     def write_run_scripts(self):
         ''' Write run script for each stage.
@@ -85,7 +98,7 @@ class RDF(object):
             sys.path.insert(0, path.dirname(runpy))
             module = importlib.import_module("rdf_{}".format(tool))
 
-            module.run(self.config, stage_dir, prev_out_dir, user_parms, write_run_scripts=True)
+            module.run(self, stage_dir, prev_out_dir, user_parms, write_run_scripts=True)
             prev_out_dir = out_dir
 
             print("Done: {}.".format(stage_name))

@@ -3,20 +3,8 @@
 rdf_path: /path/to/rdf/installation/not/implemented/yet
 job_dir: /path/to/job/directory/not/implemented/yet
 
-design:
-    name:        tv80s
-    clock_port:  clk
-    bench_suite: test
-
-    # Input Verilog files (can be multiple files)
-    verilog:     
-        - benchmarks/test/tv80/tv80_alu.v
-        - benchmarks/test/tv80/tv80_core.v
-        - benchmarks/test/tv80/tv80_mcode.v
-        - benchmarks/test/tv80/tv80_reg.v
-        - benchmarks/test/tv80/tv80s.v
-
-    library: nangate45
+design:  benchmarks/test/tv80
+library: techlibs/nangate45
 
 flow:
     - stage: synth
@@ -35,7 +23,7 @@ flow:
     - stage: global_place
       tool: RePlAce         # RePlAce, EhPlacer, ComPLx, NTUPlace
       user_parms: 
-          target_density: 0.6
+          target_density: 0.4
 
     - stage: detail_place
       tool: opendp

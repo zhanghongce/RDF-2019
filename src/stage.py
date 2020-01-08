@@ -26,17 +26,18 @@ def run_shell_cmd(cmd, f=None):
 
 
 class Stage(ABC):
-    def __init__(self, config, stage_dir, prev_out_dir, user_parms, write_run_scripts=False):
+    def __init__(self, rdf, stage_dir, prev_out_dir, user_parms, write_run_scripts=False):
         ''' Initialize the instance and populate the necessary/useful
         variables. '''
-        self.config = config
+        self.rdf_path = rdf.config["rdf_path"]
+        self.config = rdf.config
+        self.design_dir, self.lib_dir = rdf.design_dir, rdf.lib_dir
+        self.design_config, self.lib_config = rdf.design_config, rdf.lib_config
+
         self.stage_dir = stage_dir
         self.prev_out_dir = prev_out_dir
 
-        self.rdf_path = config["rdf_path"]
-        self.design_name = config["design"]["name"]
-        self.design = config["design"]
-        self.techlib_path = "techlibs"      # FIXME: Make this changeble in config file.
+        self.design_name = rdf.design_config["name"]
 
         # Output of previous stage
         self.in_def, self.in_verilog, self.in_sdc = (None,)*3
@@ -49,23 +50,14 @@ class Stage(ABC):
             self.in_verilog = None
             self.in_def = None
             self.in_sdc = "{}/{}.sdc".format(self.rdf_path, self.design_name)
-            self.design_verilogs = ["{}/{}".format(self.rdf_path, _) for _ in self.design["verilog"]]
+            self.design_verilogs = ["{}/{}".format(self.design_dir, _) \
+                                    for _ in self.design_config["verilog"]]
 
         # Library/PDK
-        self.lib_name = config["design"]["library"]
-        self.lib_dir = "{0}/{1}/{2}".format(self.rdf_path, self.techlib_path, self.lib_name)
-        self.liberty = "{0}/{1}/{2}/{2}.lib" \
-                       .format(self.rdf_path, self.techlib_path, self.lib_name)
-        self.lef = "{0}/{1}/{2}/{2}.lef" \
-                       .format(self.rdf_path, self.techlib_path, self.lib_name)
-        self.tracks = "{0}/{1}/{2}/tracks.info" \
-                       .format(self.rdf_path, self.techlib_path, self.lib_name)
-        lib_config_yml = "{0}/{1}/{2}/{2}.yml" \
-                         .format(self.rdf_path, self.techlib_path, self.lib_name)
-
-        self.lib_config = None
-        with open(lib_config_yml) as f:
-            self.lib_config = yaml.safe_load(f)
+        self.lib_name = self.lib_config["LIBRARY_NAME"]
+        self.liberty  = "{}/{}".format(self.lib_dir, self.lib_config["LIBERTY"])
+        self.lef      = "{}/{}".format(self.lib_dir, self.lib_config["LEF"])
+        self.tracks   = "{}/{}".format(self.lib_dir, self.lib_config["TRACKS_INFO_FILE"])
 
         # (TODO) User parameters
         self.user_parms = user_parms    # List of parameters (key/value pairs)
