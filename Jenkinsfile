@@ -14,8 +14,8 @@ pipeline {
                 sh '''#!/usr/bin/env bash
                      source /opt/miniconda3/etc/profile.d/conda.sh
                      conda activate
+                     cd run; python ../src/rdf.py --config test.yml --test"
                    '''
-                sh "cd run; python ../src/rdf.py --config test.yml --test"
             }
         }
         stage('Logic Synthesis') {
