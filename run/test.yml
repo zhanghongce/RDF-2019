@@ -3,7 +3,7 @@
 rdf_path: /path/to/rdf/installation/not/implemented/yet
 job_dir: /path/to/job/directory/not/implemented/yet
 
-design:  benchmarks/test/tv80
+design:  benchmarks/test/i2c
 library: techlibs/nangate45
 
 flow:

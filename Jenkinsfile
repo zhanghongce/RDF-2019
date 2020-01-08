@@ -1,38 +1,34 @@
 pipeline {
     agent any
     parameters {
-        string(
-                name: 'TargetUtilization', 
-                description: 'Target utilization (available value: 0-95).'
-              )
         choice(
-                name: 'Placer',
-                choices: ['NTUPlace3', 'ComPLx'],
-                description: 'Pick the placer you want to try.'
-              )
-        string(
-                name: 'MaxDensity', 
-                description: 'Maximum local density (available value: 0-95).'
+                name: 'benchmark',
+                choices: ['i2c', 'tv80'],
+                description: "Choose benchmark circuit you want to try.'
               )
     }
     stages {
         stage('Setup') {
             steps {
-                echo "Target utilization: ${params.TargetUtilization}"
-                echo "Placer            : ${params.Placer}"
-                echo "Maximum density   : ${params.MaxDensity}"
+                echo "Benchmark: ${params.benchmark}"
+                sh "cd run; python ../src/rdf.py --config test.yml --test"
             }
         }
-        stage('Floorplanning') {
+        stage('Logic Synthesis') {
             steps {
-                echo 'Running Floorplan.'
+                echo 'Running logic synthesis.'
             }
         }
-        stage('Placement') {
+        stage('Global Placement') {
             steps {
-                echo "Running placement (placer: ${params.Placer})"
-                sh "bash ./src/place.sh ${params.Placer}"
+                echo "Running global placement."
             }
+        }
+        stage('Detail Placement') {
+            steps {
+                echo "Running detail placement."
+            }
+
         }
         stage('Clock Tree Synthesis') {
             steps {
