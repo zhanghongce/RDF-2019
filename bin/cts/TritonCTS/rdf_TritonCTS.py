@@ -46,7 +46,7 @@ class TritonCTSRunner(Stage):
         cmd += "  --prev_out_dir {} \\\n".format(self.prev_out_dir)
         cmd += "  --lib_dir {} \\\n".format(self.lib_dir)
         cmd += "  --process {} \\\n".format(self.lib_config["PROCESS"])
-        cmd += "  --clk_port {} \\\n".format(self.config["design"]["clock_port"])
+        cmd += "  --clk_port {} \\\n".format(self.design_config["clock_port"])
         cmd += "  --root_buf {} \\\n".format(self.lib_config["CTS_BUF_CELL"])
         cmds.append(cmd)
 
