@@ -11,7 +11,8 @@ pipeline {
         stage('Setup') {
             steps {
                 echo "Benchmark: ${params.benchmark}"
-                sh '''#!/bin/bash
+                sh '''#!/usr/bin/env bash
+                     source /opt/miniconda3/etc/profile.d/conda.sh
                      conda activate
                    '''
                 sh "cd run; python ../src/rdf.py --config test.yml --test"
