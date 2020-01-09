@@ -14,7 +14,7 @@ ln -s openroad/OpenROAD-${VERSION}/bin latest
 # Remove yosys and download static yosys binaries.
 ## Google drive link: https://drive.google.com/open?id=1xhkpEr8mtTh51mkbIPHTvDaxog9Z0Uam
 cd openroad/OpenROAD-${VERSION}/bin
-rm -f yosys*
+rm -f yosys yosys-filterlib
 
 fileid="1xhkpEr8mtTh51mkbIPHTvDaxog9Z0Uam"
 filename="openroad-yosys.tar.gz"
@@ -29,6 +29,7 @@ function gdrive_download () {
 gdrive_download $fileid $filename
 tar xvfz $filename
 
-ln -sf openroad-yosys/* .
+ln -sf openroad-yosys/yosys
+ln -sf openroad-yosys/yosys-filterlib
 
 cd $CWD
