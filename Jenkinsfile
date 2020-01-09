@@ -12,41 +12,67 @@ pipeline {
             steps {
                 echo "Benchmark: ${params.benchmark}"
                 sh '''#!/usr/bin/env bash
-                     source /opt/miniconda3/etc/profile.d/conda.sh
-                     conda activate
-                     cd run; python ../src/rdf.py --config test.yml --test
+                      source /opt/miniconda3/etc/profile.d/conda.sh
+                      conda activate
+                      cd run; python ../src/rdf.py --config test.yml --test
                    '''
             }
         }
         stage('Logic Synthesis') {
             steps {
                 echo 'Running logic synthesis.'
+                sh '''#!/usr/bin/env bash
+                      cd run/rdf.yymmdd.HHMMSS/synth; bash run.sh  
+                   '''
+            }
+        }
+        stage('Floorplanning') {
+            steps {
+                echo "Running floorplanning."
+                sh '''#!/usr/bin/env bash
+                      cd run/rdf.yymmdd.HHMMSS/floorplan; bash run.sh  
+                   '''
             }
         }
         stage('Global Placement') {
             steps {
                 echo "Running global placement."
+                sh '''#!/usr/bin/env bash
+                      cd run/rdf.yymmdd.HHMMSS/global_place; bash run.sh  
+                   '''
             }
         }
         stage('Detail Placement') {
             steps {
                 echo "Running detail placement."
+                sh '''#!/usr/bin/env bash
+                      cd run/rdf.yymmdd.HHMMSS/detail_place; bash run.sh  
+                   '''
             }
 
         }
         stage('Clock Tree Synthesis') {
             steps {
                 echo 'Running clock tree synthesis.'
+                sh '''#!/usr/bin/env bash
+                      cd run/rdf.yymmdd.HHMMSS/cts; bash run.sh  
+                   '''
             }
         }
         stage('Global Routing') {
             steps {
                 echo 'Running global routing.'
+                sh '''#!/usr/bin/env bash
+                      cd run/rdf.yymmdd.HHMMSS/global_route; bash run.sh  
+                   '''
             }
         }
         stage('Detailed Routing') {
             steps {
                 echo 'Running detailed routing.'
+                sh '''#!/usr/bin/env bash
+                      cd run/rdf.yymmdd.HHMMSS/detail_route; bash run.sh  
+                   '''
             }
         }
     }
