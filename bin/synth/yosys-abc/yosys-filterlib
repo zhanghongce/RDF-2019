@@ -1,4 +1,1 @@
-#!/bin/bash
-CUR_PATH="$( cd "$(dirname "$0")" ; pwd -P )"
-LD_LIBRARY_PATH="$CUR_PATH/lib:$LD_LIBRARY_PATH"
-$CUR_PATH/bin/yosys-filterlib "$@"
+bin/yosys-filterlib
