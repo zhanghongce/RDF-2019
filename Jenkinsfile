@@ -22,6 +22,7 @@ pipeline {
             steps {
                 echo 'Running logic synthesis.'
                 sh '''#!/usr/bin/env bash
+                      pwd
                       cd rdf.yymmdd.HHMMSS/synth; bash run.sh
                       cd ../..
                    '''
