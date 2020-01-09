@@ -1,5 +1,3 @@
-pipeline {
-    agent any
     parameters {
         choice(
                 name: 'benchmark',
@@ -23,8 +21,13 @@ pipeline {
                 echo 'Running logic synthesis.'
                 sh '''#!/usr/bin/env bash
                       pwd
-                      cd rdf.yymmdd.HHMMSS/synth; bash run.sh
-                      cd ../..
+                      ls
+                      cd run
+                      pwd
+                      ls
+                      cd rdf.yymmdd.HHMMSS
+                      ls
+                      cd synth; bash run.sh
                    '''
             }
         }
@@ -32,7 +35,7 @@ pipeline {
             steps {
                 echo "Running floorplanning."
                 sh '''#!/usr/bin/env bash
-                      cd rdf.yymmdd.HHMMSS/floorplan; bash run.sh 
+                      cd run/rdf.yymmdd.HHMMSS/floorplan; bash run.sh 
                       cd ../..
                    '''
             }
