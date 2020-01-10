@@ -24,9 +24,7 @@ pipeline {
                 echo 'Running logic synthesis.'
                 sh '''#!/usr/bin/env bash
                       pwd
-                      cd run
-                      cd rdf.yymmdd.HHMMSS
-                      cd synth; bash run.sh
+                      cd run/rdf.yymmdd.HHMMSS/synth; bash run.sh
                    '''
             }
         }
@@ -34,8 +32,8 @@ pipeline {
             steps {
                 echo "Running floorplanning."
                 sh '''#!/usr/bin/env bash
+                      pwd
                       cd run/rdf.yymmdd.HHMMSS/floorplan; bash run.sh 
-                      cd ../..
                    '''
             }
         }
@@ -43,8 +41,8 @@ pipeline {
             steps {
                 echo "Running global placement."
                 sh '''#!/usr/bin/env bash
-                      cd rdf.yymmdd.HHMMSS/global_place; bash run.sh 
-                      cd ../..
+                      pwd
+                      cd run/rdf.yymmdd.HHMMSS/global_place; bash run.sh 
                    '''
             }
         }
@@ -52,8 +50,8 @@ pipeline {
             steps {
                 echo "Running detail placement."
                 sh '''#!/usr/bin/env bash
-                      cd rdf.yymmdd.HHMMSS/detail_place; bash run.sh
-                      cd ../..
+                      pwd
+                      cd run/rdf.yymmdd.HHMMSS/detail_place; bash run.sh
                    '''
             }
 
@@ -62,8 +60,8 @@ pipeline {
             steps {
                 echo 'Running clock tree synthesis.'
                 sh '''#!/usr/bin/env bash
-                      cd rdf.yymmdd.HHMMSS/cts; bash run.sh
-                      cd ../..
+                      pwd
+                      cd run/rdf.yymmdd.HHMMSS/cts; bash run.sh
                    '''
             }
         }
@@ -71,8 +69,8 @@ pipeline {
             steps {
                 echo 'Running global routing.'
                 sh '''#!/usr/bin/env bash
-                      cd rdf.yymmdd.HHMMSS/global_route; bash run.sh
-                      cd ../..
+                      pwd
+                      cd run/rdf.yymmdd.HHMMSS/global_route; bash run.sh
                    '''
             }
         }
@@ -80,8 +78,8 @@ pipeline {
             steps {
                 echo 'Running detailed routing.'
                 sh '''#!/usr/bin/env bash
-                      cd rdf.yymmdd.HHMMSS/detail_route; bash run.sh
-                      cd ../..
+                      pwd
+                      cd run/rdf.yymmdd.HHMMSS/detail_route; bash run.sh
                    '''
             }
         }
