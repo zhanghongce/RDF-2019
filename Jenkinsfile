@@ -61,6 +61,8 @@ pipeline {
                 echo 'Running clock tree synthesis.'
                 sh '''#!/usr/bin/env bash
                       pwd
+                      source /opt/miniconda3/etc/profile.d/conda.sh
+                      conda activate
                       cd run/rdf.yymmdd.HHMMSS/cts; bash run.sh
                    '''
             }
