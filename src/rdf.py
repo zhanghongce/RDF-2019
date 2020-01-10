@@ -71,7 +71,7 @@ class RDF(object):
         '''
 
         # Copy the current config file.
-        copyfile(self.config_yml, "{}/{}".format(self.config["job_dir"], self.config_yml))
+        copyfile(self.config_yml, "{}/rdf.yml".format(self.config["job_dir"]))
         prev_out_dir = None
 
         for stage in self.flow:
