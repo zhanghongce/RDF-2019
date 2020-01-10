@@ -1,7 +1,7 @@
 ---
 
-rdf_path: /path/to/rdf/installation/not/implemented/yet
-job_dir: /path/to/job/directory/not/implemented/yet
+rdf_path: ../
+job_dir: ./
 
 design:  benchmarks/test/i2c
 library: techlibs/nangate45
