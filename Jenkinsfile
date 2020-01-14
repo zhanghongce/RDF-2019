@@ -19,12 +19,12 @@ pipeline {
         choice(
                 name: 'script',
                 chocies: ['resyn2', 'resyn2a', 'compress'],
-                description: 'Choose ABC synthesis script.']
+                description: 'Choose ABC synthesis script.'
               )
         choice(
                 name: 'map',
                 choices: ['map'],
-                description: 'Choose ABC technology mapping script.']
+                description: 'Choose ABC technology mapping script.'
               )
         choice(
                 name: 'floorplanner',
