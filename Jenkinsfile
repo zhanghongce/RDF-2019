@@ -50,6 +50,7 @@ pipeline {
                 name: 'target-density',
                 defaultValue: '0.8',
                 description: 'Enter target density for global placement (valid range: [0.1, 0.9]).'
+              )
         choice(
                 name: 'detail-placer',
                 choices: ['opendp', 'MCHL-T'],
