@@ -6,6 +6,70 @@ pipeline {
                 choices: ['i2c', 'tv80'],
                 description: 'Choose benchmark circuit you want to try.'
               )
+        choice(
+                name: 'logic-synthesizer',
+                choices: ['yosys-abc'],
+                description: 'Choose logic synthesizer.'
+              )
+        string(
+                name: 'max-fanout',
+                defaultValue: '16',
+                description: 'Enter maximum fanout constraints for logic synthesis.'
+              )
+        choice(
+                name: 'script',
+                chocies: ['resyn2', 'resyn2a', 'compress'],
+                description: 'Choose ABC synthesis script.']
+              )
+        choice(
+                name: 'map',
+                choices: ['map'],
+                description: 'Choose ABC technology mapping script.']
+              )
+        choice(
+                name: 'floorplanner',
+                choices: ['TritonFP'],
+                description: 'Choose floorplanner.'
+              )
+        string(
+                name: 'target-utilization',
+                defaultValue: '50',
+                description: 'Enter target utilization factor for floorplanning (valid range: [10, 90])."
+              )
+        string(
+                name: 'aspect-ratio',
+                defaultValue: '1',
+                description: 'Enter aspect ratio for floorplanninng.'
+              )
+        choice(
+                name: 'global-placer',
+                choices: ['RePlAce', 'EhPlacer', 'ComPLx', 'NTUPlace3'],
+                description: 'Choose global placer.'
+              )
+        string(
+                name: 'target-density',
+                defaultValue: '0.8',
+                description: "Enter target density for global placement (valid range: [0.1, 0.9])."
+        choice(
+                name: 'detail-placer',
+                choices: ['opendp', 'MCHL-T'],
+                description: 'Choose detail placer.'
+              )
+        choice(
+                name: 'clock-tree-synthesizer',
+                choices: ['TritonCTS'],
+                description: 'Choose clock tree synthesizer.'
+              )
+        choice(
+                name: 'global-router',
+                choices: ['FastRoute4-lefdef'],
+                description: 'Choose global router.'
+              )
+        choice(
+                name: 'detail-router',
+                choices: ['TritonRoute'],
+                description: 'Choose detail router.'
+              )
     }
     stages {
         stage('Setup') {
