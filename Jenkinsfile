@@ -34,7 +34,7 @@ pipeline {
         string(
                 name: 'target-utilization',
                 defaultValue: '50',
-                description: 'Enter target utilization factor for floorplanning (valid range: [10, 90])."
+                description: 'Enter target utilization factor for floorplanning (valid range: [10, 90]).'
               )
         string(
                 name: 'aspect-ratio',
@@ -49,7 +49,7 @@ pipeline {
         string(
                 name: 'target-density',
                 defaultValue: '0.8',
-                description: "Enter target density for global placement (valid range: [0.1, 0.9])."
+                description: 'Enter target density for global placement (valid range: [0.1, 0.9]).'
         choice(
                 name: 'detail-placer',
                 choices: ['opendp', 'MCHL-T'],
