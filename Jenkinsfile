@@ -18,7 +18,7 @@ pipeline {
               )
         choice(
                 name: 'script',
-                chocies: ['resyn2', 'resyn2a', 'compress'],
+                choices: ['resyn2', 'resyn2a', 'compress'],
                 description: 'Choose ABC synthesis script.'
               )
         choice(
