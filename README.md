@@ -11,7 +11,7 @@ Noteworthy *vertical* extensions include:
 A number of *horizontal* extensions to RDF are achieved by incorporating additional tool options at each stage. 
 Last, RDF-2019 provides significantly enhanced support of and interoperability with industry-standard tools and design formats (LEF/DEF, SPEF, Liberty, SDC, etc.).
 
-RDF-2019 Cloud demonstration: [Link](https://route.ucsd.edu:8080).
+*RDF-2019 Cloud demonstration: [Link](route.ucsd.edu:8080/).*
 
 
 Getting Started
@@ -29,9 +29,10 @@ Configuring RDF Flow
 ### Design benchmark configuration
 
 A benchmark consists of Verilog source codes and a configuration file (YAML format).
-Please refer to an example design benchmark: [link](benchmark/test/tv80s)
+Please refer to an example design benchmark: [Link](benchmarks/test/tv80)
 
 Example design configuration file:
+
 ```
 name:        tv80s
 clock_port:  clk
@@ -46,7 +47,7 @@ verilog:
 
 ### Library configuration
 
-Example library configuration file: [link](techlibs/nangate45/rdf_techlib.md)
+Example library configuration file: [link](techlibs/nangate45/rdf_techlib.yml)
 
 
 ### Flow configuration
