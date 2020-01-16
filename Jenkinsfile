@@ -11,10 +11,10 @@ pipeline {
                 choices: ['yosys-abc'],
                 description: 'Choose logic synthesizer.'
               )
-        string(
+        choice(
                 name: 'max-fanout',
-                defaultValue: '16',
-                description: 'Enter maximum fanout constraints for logic synthesis.'
+                choices: ['8', '16', '32', '64'],
+                description: 'Choose maximum fanout constraints for logic synthesis.'
               )
         choice(
                 name: 'script',
@@ -31,25 +31,25 @@ pipeline {
                 choices: ['TritonFP'],
                 description: 'Choose floorplanner.'
               )
-        string(
+        choice(
                 name: 'target-utilization',
-                defaultValue: '50',
-                description: 'Enter target utilization factor for floorplanning (valid range: [10, 90]).'
+                choices: ['25', '50', '75'],
+                description: 'Choose target utilization factor for floorplanning.'
               )
-        string(
+        choice(
                 name: 'aspect-ratio',
-                defaultValue: '1',
+                choices: ['0.5', '1', '2'],
                 description: 'Enter aspect ratio for floorplanninng.'
               )
         choice(
                 name: 'global-placer',
-                choices: ['RePlAce', 'EhPlacer', 'ComPLx', 'NTUPlace3'],
+                choices: ['RePlAce', 'EhPlacer', 'ComPLx', 'NTUPlace3', 'FZUPlace'],
                 description: 'Choose global placer.'
               )
-        string(
+        choice(
                 name: 'target-density',
-                defaultValue: '0.8',
-                description: 'Enter target density for global placement (valid range: [0.1, 0.9]).'
+                choices: ['0.5', '0.7', '0.9'],
+                description: 'Choose target density for global placement.'
               )
         choice(
                 name: 'detail-placer',
@@ -60,6 +60,11 @@ pipeline {
                 name: 'clock-tree-synthesizer',
                 choices: ['TritonCTS'],
                 description: 'Choose clock tree synthesizer.'
+              )
+        choice(
+                name: 'target-skew',
+                choices: ['25', '50', '75', '100'],
+                description: 'Choose target skew.'
               )
         choice(
                 name: 'global-router',

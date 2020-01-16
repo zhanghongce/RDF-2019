@@ -73,7 +73,7 @@ class TritonRouteRunner(Stage):
             f.write("cpxthreads:1\n")
             f.write("verbose:1\n")
             f.write("gap:0\n")
-            f.write("timeout:36000\n")
+            f.write("timeout:3600\n")
 
     def _run_triton_route(self):
         cmd = "cd {};".format(self.stage_dir)
