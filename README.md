@@ -11,7 +11,7 @@ Noteworthy *vertical* extensions include:
 A number of *horizontal* extensions to RDF are achieved by incorporating additional tool options at each stage. 
 Last, RDF-2019 provides significantly enhanced support of and interoperability with industry-standard tools and design formats (LEF/DEF, SPEF, Liberty, SDC, etc.).
 
-RDF-2019 Cloud demonstration: [Link](route.ucsd.edu:8080/).
+RDF-2019 Cloud demonstration: [Link](http://route.ucsd.edu:8080/).
 
 
 Getting Started
