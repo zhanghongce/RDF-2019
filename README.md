@@ -11,6 +11,8 @@ Noteworthy *vertical* extensions include:
 A number of *horizontal* extensions to RDF are achieved by incorporating additional tool options at each stage. 
 Last, RDF-2019 provides significantly enhanced support of and interoperability with industry-standard tools and design formats (LEF/DEF, SPEF, Liberty, SDC, etc.).
 
+RDF-2019 Cloud demonstration: [Link](https://route.ucsd.edu:8080).
+
 
 Getting Started
 ---
@@ -24,73 +26,75 @@ python ../src/rdf.py --config rdf.yml --test
 Configuring RDF Flow
 ---
 
-### Design configuration
+### Design benchmark configuration
+
+A benchmark consists of Verilog source codes and a configuration file (YAML format).
+Please refer to an example design benchmark: [link](benchmark/test/tv80s)
+
+Example design configuration file:
+```
+name:        tv80s
+clock_port:  clk
+
+verilog:     
+    - tv80_alu.v
+    - tv80_core.v
+    - tv80_mcode.v
+    - tv80_reg.v
+    - tv80s.v
+```
+
+### Library configuration
+
+Example library configuration file: [link](techlibs/nangate45/rdf_techlib.md)
 
 
 ### Flow configuration
 
-
-### Library configuration
-
-
-### Example YAML config file
-
-Example RDF configuration file in YAML format:
+Example RDF flow configuration file in YAML format:
 
 ```
 ---
+rdf_path: ../
+job_dir: ./
 
-rdf_path: /path/to/your/rdf/installation/RDF-2019
-job_dir: /path/to/job/directory
-
-design:
-    name:        ac97_ctrl
-    clock_port:  clk
-    bench_suite: tau17
-    library:     nangate45
-
-    # Floorplan configuration
-    target_utilization: 50
-    aspect_ratio: 1
-
-    # Input Verilog files (can be multiple files)
-    verilog:     
-        - benchmarks/tau17/ac97_ctrl/ac97_ctrl.v
+design:  benchmarks/test/i2c
+library: techlibs/nangate45
 
 flow:
     - stage: synth
-      tool: abc         # ABC or Yosys
+      tool: yosys-abc # ABC or Yosys
       user_parms: 
           max_fanout: 16
           script: resyn2
           map:    map
-
+          
     - stage: floorplan
       tool: TritonFP 
-      user_parms: []
+      user_parms:
+          target_utilization: 20
+          aspect_ratio: 1
 
     - stage: global_place
-      tool: RePlAce     # RePlAce, EhPlacer, ComPLx+FastPlace, NTUPlace, FZUPlace
-      user_parms: []
+      tool: RePlAce         # RePlAce, EhPlacer, ComPLx, NTUPlace
+      user_parms: 
+          target_density: 0.4
 
     - stage: detail_place
-      tool: opendp      # opendp, MCHL_T
-      user_parms: []
-
-    - stage: size
-      tool: TritonSizer
+      tool: opendp
       user_parms: []
 
     - stage: cts
       tool: TritonCTS
-      user_parms: []
+      user_parms:
+          target_skew: 50
 
     - stage: global_route
-      tool: FastRoute4-lefdef    # FastRoute4-lefdef, NCTUgr
+      tool: FastRoute4-lefdef
       user_parms: []
 
     - stage: detail_route
-      tool: TritonRoute          # TritonRoute, DrCU, NCTUdr
+      tool: TritonRoute
       user_parms: []
 ```
 
@@ -107,17 +111,12 @@ tritonCTS LUTs
 gds
 ```
 
-
 Adding Your Pont Tool Binaries
 ---
 
 `./bin/<stage>/<tool_name>/`
 
-Each tool must include runner python script.
-This python script takes json file, which describes the parameters to run.
-
-RDF will call `<rdf_path>/bin/<stage>/<tool_name>/rdf_<tool_name>.py`.
-
+Each tool must include runner python script, and RDF will call it: `<rdf_path>/bin/<stage>/<tool_name>/rdf_<tool_name>.py`.
 
 
 Contributors
