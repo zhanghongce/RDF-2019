@@ -19,7 +19,9 @@ Getting Started
 
 You can run it by:
 ```
-cd run
+cd bin/openroad
+./install.sh
+cd ../../run
 python ../src/rdf.py --config rdf.yml --test
 ```
 
