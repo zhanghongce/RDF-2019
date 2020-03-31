@@ -21,7 +21,7 @@ flow:
           aspect_ratio: 1
 
     - stage: global_place
-      tool: RePlAce         # RePlAce, EhPlacer, ComPLx, NTUPlace
+      tool: FZUplace # RePlAce, EhPlacer, ComPLx, NTUPlace, FZUplace
       user_parms: 
           target_density: 0.4
 
