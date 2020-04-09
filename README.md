@@ -22,7 +22,7 @@ You can run it by:
 cd bin/openroad
 ./install.sh
 cd ../../run
-python ../src/rdf.py --config rdf.yml --test
+python ../src/rdf.py --config test.yml --test
 ```
 
 Configuring RDF Flow
