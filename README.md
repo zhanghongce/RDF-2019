@@ -23,6 +23,8 @@ cd bin/openroad
 ./install.sh
 cd ../../run
 python ../src/rdf.py --config test.yml --test
+cd rdf.yymmdd.HHMMSS
+./run.sh
 ```
 
 Configuring RDF Flow
