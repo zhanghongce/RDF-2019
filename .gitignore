@@ -1,6 +1,4 @@
 **/__pycache__
 **/*.pyc
-run/rdf.19*
-run/rdf.yymmdd.HHMMSS
 **/defRWarning.log
 **/lefRWarning.log
