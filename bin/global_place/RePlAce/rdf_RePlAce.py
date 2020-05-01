@@ -45,6 +45,7 @@ class RePlAceRunner(Stage):
         # cmd += " -lef {}".format(self.lef)
         cmd += " -lef {}".format(self.lef_mod)
         cmd += " -def {}".format(self.in_def)
+        cmd += " -den {}".format(float(self.user_parms["target_density"]))
         cmd += " -onlyGP"
         cmd += " -output {}".format(self.stage_dir)
         cmds.append(cmd)
