@@ -2,11 +2,18 @@
     File name      : rdf.py
     Author         : Jinwook Jung (jinwookjung@ibm.com)
     Created on     : Thu 25 Jul 2019 11:33:57 PM EDT
-    Last modified  : 2020-01-06 15:34:36
+    Last modified  : 2020-04-30 16:31:44
     Description    : 
 '''
 
-import subprocess, os, sys, random, yaml, time, importlib
+import subprocess
+import os
+import sys
+import random
+import yaml
+import time
+import importlib
+
 from os import path
 from datetime import datetime
 from uuid import uuid4
@@ -37,13 +44,12 @@ class RDF(object):
         with open(config_yml) as f:
             self.config = yaml.safe_load(f)
 
-        for k,v in self.config.items():
-            if k == 'rdf_path':
-                # FIXME: Get the RDF installation directory from user config file.
-                src_dir = path.dirname(path.realpath(__file__))
-                self.config["rdf_path"] = path.dirname(src_dir)
+        # FIXME: Get the RDF installation directory from user config file.
+        src_dir = path.dirname(path.realpath(__file__))
+        self.config["rdf_path"] = path.dirname(src_dir)
 
-            elif k == 'job_dir':
+        for k,v in self.config.items():
+            if k == 'job_dir':
                 # FIXME: Need to get the job directory form user config file.
                 cur_dir = os.getcwd()
                 self.config["job_dir"]  = "{}/{}".format(cur_dir, job_id)
@@ -126,12 +132,15 @@ if __name__ == '__main__':
     parser.add_argument("--config", action="store", required=True)
     parser.add_argument("--run", action="store_true")
     parser.add_argument("--test", action="store_true")
+    parser.add_argument("--job_id", action="store")
     args, _ = parser.parse_known_args()
 
     config_yml = args.config
 
     if args.test:
         job_id = "rdf.yymmdd.HHMMSS"
+    elif args.job_id is not None:
+        job_id = args.job_id
     else:
         job_id = "rdf.{}".format(datetime.now().strftime('%y%m%d.%H%M%S'))
 
