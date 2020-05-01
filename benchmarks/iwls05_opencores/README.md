@@ -4,30 +4,30 @@ OpenCores Benchmarks from IWLS'05 Benchmarks
 Downloaded from http://www.opencores.org
 
 
-* pci_conf_cyc_addr_dec: PCI
-* steppermotordrive: Stepper Motor Drive
-* ss_pcm: Single Slot PCM Interface
-* usb_phy: USB 1.1 PHY
-* sasc: Simple Asynchronous Serial Controller
-* simple_spi: MC68HC11E based SPI interface
-* i2c: WISHBONE revB.2 compliant I2C Master controller
-* pci_spoci_ctrl: PCI
-* des_area: DES optimized for area
-* spi: SPI IP
-* systemcdes: SystemC DES
-* wb_dma: WISHBONE DMA/Bridge IP Core
-* des3_area: Tripe DES optimized for performance
-* tv80: TV80 8-Bit Microprocessor Core
-* systemcaes: SystemC AES
-* mem_ctrl: WISHBONE Memory Controller
-* ac97_ctrl: WISHBONE AC 97 Controller
-* usb_funct: USB function core
-* pci_bridge32: PCI
-* aes_core: AES Cipher
-* wb_conmax: WISHBONE Conmax IP Core
-* ethernet: Ethernet IP core
-* des_perf: DES optimized for performance
-* vga_lcd: WISHBONE rev.B2 compliant Enhanced VGA/LCD Controller
+* `pci_conf_cyc_addr_dec`: PCI
+* `steppermotordrive`: Stepper Motor Drive
+* `ss_pcm`: Single Slot PCM Interface
+* `usb_phy`: USB 1.1 PHY
+* `sasc`: Simple Asynchronous Serial Controller
+* `simple_spi`: MC68HC11E based SPI interface
+* `i2c`: WISHBONE revB.2 compliant I2C Master controller
+* `pci_spoci_ctrl`: PCI
+* `des_area`: DES optimized for area
+* `spi`: SPI IP
+* `systemcdes`: SystemC DES
+* `wb_dma`: WISHBONE DMA/Bridge IP Core
+* `des3_area`: Tripe DES optimized for performance
+* `tv80`: TV80 8-Bit Microprocessor Core
+* `systemcaes`: SystemC AES
+* `mem_ctrl`: WISHBONE Memory Controller
+* `ac97_ctrl`: WISHBONE AC 97 Controller
+* `usb_funct`: USB function core
+* `pci_bridge32`: PCI
+* `aes_core`: AES Cipher
+* `wb_conmax`: WISHBONE Conmax IP Core
+* `ethernet`: Ethernet IP core
+* `des_perf`: DES optimized for performance
+* `vga_lcd`: WISHBONE rev.B2 compliant Enhanced VGA/LCD Controller
 
 ```
                 design | sequential | inverter | buffer | logic | tristate | unresolved |  total
